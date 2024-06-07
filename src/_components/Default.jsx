@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
 import { Button, Container, Link, Typography } from '@mui/material'
+import { Outlet } from 'react-router'
 
 const Default = () => {
     const [count, setCount] = useState(0);
@@ -28,6 +29,8 @@ const Default = () => {
             <Typography variant='body2'>
                 Click on the Vite and React logos to learn more
             </Typography>
+
+            <Outlet context={{count, setCount}}/>
         </Container>
     )
 }
