@@ -1,0 +1,16 @@
+{
+    "labels": [
+        {
+            "id": 1,
+            "name": "General Chat"
+        },
+        {
+            "id": 2,
+            "name": "Private Chat"
+        },
+        {
+            "id": 3,
+            "name": "Custom Chat"
+        }
+    ]
+}
