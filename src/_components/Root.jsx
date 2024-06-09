@@ -1,10 +1,12 @@
 import React from 'react'
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './ErrorFallback';
 
 const Root = ({children}) => {
     return (
-        <div>
+        <ErrorBoundary FallbackComponent={ErrorFallback} onError={(err,info) => {console.error("Error occured: >>",err); console.error("Error occured: >>",err)}}>
             {children}
-        </div>
+        </ErrorBoundary>
     )
 }
 

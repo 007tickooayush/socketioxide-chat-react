@@ -12,7 +12,6 @@ const Default = () => {
 
     useEffect(() => {
         console.log('Default Component Mounted');
-        // console.log('tabs :>> ', tabs);
         setTabs(labels);
     }, []);
 
