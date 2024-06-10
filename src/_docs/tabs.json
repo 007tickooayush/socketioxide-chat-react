@@ -2,15 +2,18 @@
     "labels": [
         {
             "id": 1,
-            "name": "General Chat"
+            "name": "General Chat",
+            "route": "/"
         },
         {
             "id": 2,
-            "name": "Private Chat"
+            "name": "Private Chat",
+            "route": "/private"
         },
         {
             "id": 3,
-            "name": "Custom Chat"
+            "name": "Custom Chat",
+            "route": "/custom"
         }
     ]
 }

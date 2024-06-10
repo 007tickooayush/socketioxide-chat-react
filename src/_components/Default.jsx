@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Box, Button, Container, Link, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { Outlet } from 'react-router'
 import Navbar from './Navbar'
 import { labels } from '../_docs/tabs.json';
+import { socket } from '../_utils/socket'
 
 const Default = () => {
     const [count, setCount] = useState(0);
@@ -13,36 +12,28 @@ const Default = () => {
     useEffect(() => {
         console.log('Default Component Mounted');
         setTabs(labels);
-    }, []);
+
+        console.log('VITE_TEST :>> ', import.meta.env.VITE_TEST);
+        console.log('APP MODE :>>', import.meta.env.MODE);
+        // console.log('import.meta.env.DEV :>> ', import.meta.env.DEV);
+        // console.log('import.meta.env.PROD :>> ', import.meta.env.PROD);
+        socket.connect();
+
+        socket.on('connect', () => {
+            console.log('Socket connected');
+        });
+
+        return () => {
+            socket.off('connect');
+            socket.disconnect();
+        }
+    }, [socket]);
 
 
     return (
         <Box>
             <Navbar tabs={tabs} />
-            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
-                <Container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
-                    <Link href="https://vitejs.dev" target="_blank">
-                        <img src={viteLogo} className="logo" alt="Vite logo" />
-                    </Link>
-                    <Link href="https://react.dev" target="_blank">
-                        <img src={reactLogo} className="logo react" alt="React logo" />
-                    </Link>
-                </Container>
-                <Typography variant='h3'>Vite + React</Typography>
-                <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
-                    <Button variant='outlined' onClick={() => setCount((count) => count + 1)}>
-                        count is {count}
-                    </Button>
-                    <Typography variant='body1'>
-                        Edit <code>src/App.jsx</code> and save to test HMR
-                    </Typography>
-                </Container>
-                <Typography variant='body2'>
-                    Click on the Vite and React logos to learn more
-                </Typography>
-
-                <Outlet context={{ count, setCount }} />
-            </Container>
+            <Outlet context={{ count, setCount }} />
         </Box>
     )
 }
