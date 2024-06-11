@@ -1,9 +1,12 @@
-import { Box, Grid, IconButton, Tab, Tabs, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Grid, IconButton, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react'
 import NavDrawer from './NavDrawer';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
+import { CloudOutlined } from '@mui/icons-material';
+import UnameDisplayTag from './UnameDisplayTag';
+import ConnectedState from './ConnectedState';
 
-const Navbar = ({ tabs }) => {
+const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
     const [tabVal, setTabVal] = useState(0);
 
     // Get the MUI Theme Object
@@ -11,19 +14,20 @@ const Navbar = ({ tabs }) => {
     // Check if the dimensions are the same
     const isSameDim = useMediaQuery(theme.breakpoints.down('sm'));
 
+
     return (
         <>
             {
                 isSameDim ?
                     (
                         <>
-                            <NavDrawer />
+                            <NavDrawer tabs={tabs} username={username} setUsername={setUsername} isConnectedState={isConnectedState} />
                         </>
                     )
                     :
                     (
                         <Grid container sx={{ placeItems: 'center' }}>
-                            <Grid item sm={8} md={8} xl={8}>
+                            <Grid item sm={10} md={10} xl={10}>
                                 <Tabs value={tabVal} textColor="inherit" onChange={(e, v) => setTabVal(v)}>
                                     {
                                         tabs.map((tab, index) => (
@@ -32,10 +36,9 @@ const Navbar = ({ tabs }) => {
                                     }
                                 </Tabs>
                             </Grid>
-                            <Grid item sm={4} md={4} xl={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', borderRadius: 4, padding: 2 }}>
-                                    <Typography variant='body1'>SOCKETIOXIDE</Typography>
-                                </Box>
+                            <Grid item sm={2} md={2} xl={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <UnameDisplayTag username={username}/>
+                                <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername}/>
                             </Grid>
                         </Grid>
                     )

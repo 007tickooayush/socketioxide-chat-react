@@ -1,13 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import Default from "../_components/Default";
-import PrivateChat from "../_components/PrivateChat";
-import CustomChat from "../_components/CustomChat";
+import PrivateChat from "../_components/_chats/PrivateChat";
+import CustomChat from "../_components/_chats/CustomChat";
 import ErrorFallback from "../_components/ErrorFallback";
-import GeneralChat from "../_components/GeneralChat";
+import GeneralChat from "../_components/_chats/GeneralChat";
 
-const routes = [];
-
-const router = createBrowserRouter([
+const routes = [
     {
         path: '/',
         element: <Default />,
@@ -17,8 +15,8 @@ const router = createBrowserRouter([
                 element: <GeneralChat />
             },
             {
-                path: '/child',
-                element: <div>Child Component</div>
+                path: '/test',
+                element: <div>Test Component</div>
             },
             {
                 path: '/private',
@@ -34,6 +32,8 @@ const router = createBrowserRouter([
             }
         ]
     }
-]);
+];
+
+const router = createBrowserRouter(routes);
 
 export default router;
