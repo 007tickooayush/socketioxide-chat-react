@@ -9,11 +9,11 @@ const NavDrawer = ({ username, setUsername, tabs, isConnectedState }) => {
     const [open, setOpen] = useState(false);
     // const { isConnected, setIsConnected } = isConnectedState;
     return (
-        <Box sx={{ height: '100vw' }}>
+        <Box>
             <Drawer open={open} anchor='left' onClose={() => setOpen(false)} sx={{ padding: 4 }}>
                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} margin={2} >
                     <UnameDisplayTag username={username} />
-                    <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} />
+                    <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} isDisabled={false}/>
                 </Box>
                 <List>
                     {

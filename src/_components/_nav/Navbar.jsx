@@ -24,7 +24,7 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                     )
                     :
                     (
-                        <Grid container sx={{ placeItems: 'center',justifyContent: 'center' }}>
+                        <Grid container sx={{ placeItems: 'center', justifyContent: 'center' }}>
                             <Grid item sm={10} md={8} xl={10}>
                                 <Tabs value={tabVal} textColor="inherit" onChange={(e, v) => setTabVal(v)}>
                                     {
@@ -35,7 +35,7 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                                 </Tabs>
                             </Grid>
                             <Grid item sm={2} md={4} xl={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername}/>
+                                <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} isDisabled={false} />
                             </Grid>
                         </Grid>
                     )

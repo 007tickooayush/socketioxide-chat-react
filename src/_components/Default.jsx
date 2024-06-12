@@ -50,7 +50,7 @@ const Default = () => {
     return (
         <Box>
             <Navbar tabs={tabs} username={username} setUsername={setUsername} isConnectedState={{ isConnected, setIsConnected }} />
-            <Box display={'flex'} justifyContent={'center'} marginBottom={4} paddingBottom={4}>
+            <Box display={'flex'} justifyContent={'center'} marginBottom={2} paddingBottom={2}>
                 <UnameDisplayTag username={username}/>
             </Box>
             <Outlet context={{ count, setCount, username, isConnectedState:{isConnected, setIsConnected}, setUsername }} />

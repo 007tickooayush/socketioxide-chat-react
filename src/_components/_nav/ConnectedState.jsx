@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import React from 'react'
 import { socket } from '../../_utils/socket';
 
-const ConnectedState = ({ isConnectedState, setUsername }) => {
+const ConnectedState = ({ isConnectedState, setUsername, isDisabled }) => {
     const { isConnected, setIsConnected } = isConnectedState;
 
     const handleConnectState = () => {
@@ -12,7 +12,7 @@ const ConnectedState = ({ isConnectedState, setUsername }) => {
         socket.connected ? socket.disconnect() : socket.connect();
     }
     return (
-        <IconButton onClick={handleConnectState}>
+        <IconButton onClick={handleConnectState} disabled={isDisabled}>
             {
                 isConnected ? <CloudOutlined sx={{ color: 'green' }} /> : <CloudOffOutlined sx={{ color: 'red' }} />
             }

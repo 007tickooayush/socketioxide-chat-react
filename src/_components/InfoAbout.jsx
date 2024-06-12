@@ -19,7 +19,7 @@ const InfoAbout = () => {
                 </Typography>
                 <Typography variant='body1' align='center' >
                     {/* disable clicking here */}
-                    To connect to the server click on the cloud icon <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} /> in the navigation Panel on the top. As by default the user is not connected to the server.
+                    To connect to the server click on the cloud icon <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} isDisabled={true}/> in the navigation Panel on the top. As by default the user is not connected to the server.
                 </Typography>
             </Box>
         </>
