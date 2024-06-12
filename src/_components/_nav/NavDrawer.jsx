@@ -13,7 +13,7 @@ const NavDrawer = ({ username, setUsername, tabs, isConnectedState }) => {
             <Drawer open={open} anchor='left' onClose={() => setOpen(false)} sx={{ padding: 4 }}>
                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} margin={2} >
                     <UnameDisplayTag username={username} />
-                    <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername}/>
+                    <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} />
                 </Box>
                 <List>
                     {
@@ -31,9 +31,17 @@ const NavDrawer = ({ username, setUsername, tabs, isConnectedState }) => {
                 </List>
             </Drawer>
             <Grid container sx={{ placeItems: 'center' }}>
-                <IconButton onClick={() => setOpen(!open)} sx={{ marginLeft: 'auto' }}>
-                    <MenuOutlined />
-                </IconButton>
+                <Grid item sm={8} sx={{ margin: 'auto' }}>
+                    {/* <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} alignItems={'start'} justifyContent={'start'} marginBottom={4}> */}
+                        <Typography variant='caption' paddingRight={1} fontWeight={'light'}> Connected User:</Typography>
+                        <Typography variant='caption' fontWeight={'medium'}>{username ?? "NOT CONNECTED (OFFLINE)"}</Typography>
+                    {/* </Box> */}
+                </Grid>
+                <Grid item sm={4} sx={{ marginLeft: 'auto' }}>
+                    <IconButton onClick={() => setOpen(!open)} >
+                        <MenuOutlined />
+                    </IconButton>
+                </Grid>
             </Grid>
         </Box>
     )

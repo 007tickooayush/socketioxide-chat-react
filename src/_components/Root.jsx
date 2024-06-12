@@ -4,7 +4,7 @@ import ErrorFallback from './ErrorFallback';
 
 const Root = ({children}) => {
     return (
-        <ErrorBoundary FallbackComponent={ErrorFallback} onError={(err,info) => {console.error("Error occured: >>",err); console.error("Error occured: >>",err)}}>
+        <ErrorBoundary FallbackComponent={ErrorFallback} onError={(err,InfoAbout) => {console.error("Error occured: >>",err); console.error("Error occured: >>",err)}}>
             {children}
         </ErrorBoundary>
     )

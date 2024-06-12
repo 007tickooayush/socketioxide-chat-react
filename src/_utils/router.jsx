@@ -4,14 +4,19 @@ import PrivateChat from "../_components/_chats/PrivateChat";
 import CustomChat from "../_components/_chats/CustomChat";
 import ErrorFallback from "../_components/ErrorFallback";
 import GeneralChat from "../_components/_chats/GeneralChat";
+import InfoAbout from "../_components/InfoAbout";
 
 const routes = [
     {
-        path: '/',
+        path: '',
         element: <Default />,
         children: [
             {
-                path: '',
+                path: '/info',
+                element: <InfoAbout />
+            },
+            {
+                path: '/general',
                 element: <GeneralChat />
             },
             {

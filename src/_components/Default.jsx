@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 import Navbar from './_nav/Navbar'
 import { labels } from '../_docs/tabs.json';
 import { socket } from '../_utils/socket'
+import UnameDisplayTag from './_nav/UnameDisplayTag';
 
 const Default = () => {
     const [count, setCount] = useState(0);
@@ -11,10 +12,15 @@ const Default = () => {
     const [username, setUsername] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
 
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         console.log('Default Component Mounted');
         setTabs(labels);
 
+        // By default navigate to the info page
+        navigate('/info');
         console.log('VITE_TEST :>> ', import.meta.env.VITE_TEST);
         console.log('APP MODE :>>', import.meta.env.MODE);
         // console.log('import.meta.env.DEV :>> ', import.meta.env.DEV);
@@ -38,13 +44,16 @@ const Default = () => {
                 socket.disconnect();
             }
         }
-    }, [socket]);
+    }, [socket, navigate]);
 
 
     return (
         <Box>
             <Navbar tabs={tabs} username={username} setUsername={setUsername} isConnectedState={{ isConnected, setIsConnected }} />
-            <Outlet context={{ count, setCount, username }} />
+            <Box display={'flex'} justifyContent={'center'} marginBottom={4} paddingBottom={4}>
+                <UnameDisplayTag username={username}/>
+            </Box>
+            <Outlet context={{ count, setCount, username, isConnectedState:{isConnected, setIsConnected}, setUsername }} />
         </Box>
     )
 }

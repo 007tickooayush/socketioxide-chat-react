@@ -1,9 +1,7 @@
-import { Box, Grid, IconButton, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Grid, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react'
 import NavDrawer from './NavDrawer';
-import { Link, useOutletContext } from 'react-router-dom';
-import { CloudOutlined } from '@mui/icons-material';
-import UnameDisplayTag from './UnameDisplayTag';
+import { Link } from 'react-router-dom';
 import ConnectedState from './ConnectedState';
 
 const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
@@ -26,8 +24,8 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                     )
                     :
                     (
-                        <Grid container sx={{ placeItems: 'center' }}>
-                            <Grid item sm={10} md={10} xl={10}>
+                        <Grid container sx={{ placeItems: 'center',justifyContent: 'center' }}>
+                            <Grid item sm={10} md={8} xl={10}>
                                 <Tabs value={tabVal} textColor="inherit" onChange={(e, v) => setTabVal(v)}>
                                     {
                                         tabs.map((tab, index) => (
@@ -36,8 +34,7 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                                     }
                                 </Tabs>
                             </Grid>
-                            <Grid item sm={2} md={2} xl={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <UnameDisplayTag username={username}/>
+                            <Grid item sm={2} md={4} xl={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername}/>
                             </Grid>
                         </Grid>
