@@ -1,5 +1,5 @@
 import { CloudOffOutlined } from '@mui/icons-material';
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, List, ListItem, Typography } from '@mui/material'
 import React from 'react'
 import { useOutletContext } from 'react-router'
 import ConnectedState from './_nav/ConnectedState';
@@ -10,17 +10,51 @@ const InfoAbout = () => {
     return (
         // <Container sx={{minHeight:'100%'}}>
         <>
-            <Box display={'flex'} flexDirection={'column'} flexWrap={'wrap'} justifyContent={'center'} alignItems={'center'}>
-                <Typography variant='h6'>
-                    About the Web application
-                </Typography>
-                <Typography variant='body1' align='center'>
-                    This is a chatting web application that is made to deliver lightning fast messages to users communicating within the definite space.
-                </Typography>
-                <Typography variant='body1' align='center' >
-                    {/* disable clicking here */}
-                    To connect to the server click on the cloud icon <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} isDisabled={true}/> in the navigation Panel on the top. As by default the user is not connected to the server.
-                </Typography>
+            <Box>
+                <Box display={'flex'} flexDirection={'column'} flexWrap={'wrap'} justifyContent={'center'} alignItems={'center'}>
+                    <Typography variant='h6' marginBottom={2}>
+                        About the Web application
+                    </Typography>
+                </Box>
+                <Box display={'flex'} flexDirection={'column'} flexWrap={'wrap'} justifyContent={'start'} alignItems={'start'} padding={2}>
+                    <List>
+                        <ListItem>
+                            <Typography variant='body1' align='left'>
+                                - This is a chatting web application that is made to deliver lightning fast messages to users communicating within the definite space.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
+                            <Typography variant='body1' align='left' >
+                                - To connect/disconnect to the server click on the cloud icon <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} isDisabled={true} /> in the navigation Panel on the top if you are using a desktop, else you can find it inside the navigation drawer. As by default the user is not connected to the server.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
+                            <Typography variant='body1' align='left'>
+                                - To join a group switch the tabs by selecting from the ones available.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
+                            <Typography variant='body1' align='left'>
+                                - The general group is universal chat group where everyone can post a message and that message would be available to all the users connected to the server via the application.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
+                            <Typography variant='body1' align='left'>
+                                - The private group is chat group specifically for two indivuduals where the communication only occurs bewteen them and other users are not notified about the conversation.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
+                            <Typography variant='body1' align='left'>
+                                - The custom chat group is chat group is applicable when more than two people want to indulge in a conversation, as in this chattiing group the user creates a group via a group title and that title can be used by other users to join the group.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
+                            <Typography variant='body1' align='left' fontWeight={'bold'}>
+                                - NOTE: The application does not display more than 20 messages inside a group if left by the user to provide optimal performance and better user experience. Also the user has to follow the generated username id which is generated at the instant whenever the user connects/reconnects to the server. As anonymity being the concern, the user does not need to provide its details to generate the username in order to interact with other users.
+                            </Typography>
+                        </ListItem>
+                    </List>
+                </Box>
             </Box>
         </>
         // </Container>
