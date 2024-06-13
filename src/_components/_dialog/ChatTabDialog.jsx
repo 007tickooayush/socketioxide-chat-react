@@ -68,7 +68,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     return (
         <Dialog open={isDialogOpen}> {/* onClose={handleDialogClose} */}
             {
-                !isConnected
+                isConnected
                     ?
                     (
                         <>
