@@ -36,7 +36,7 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                     :
                     (
                         <Grid container sx={{ placeItems: 'center', justifyContent: 'center' }}>
-                            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTab={currentTab} setTabVal={setTabVal} isConnectedState={isConnectedState} />
+                            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTabState={{currentTab, setCurrentTab}} tabValState={{tabVal, setTabVal}} isConnectedState={isConnectedState} />
                             <Grid item sm={10} md={8} xl={10}>
                                 <Tabs value={tabVal} textColor="inherit" onChange={(e, v) => setTabVal(v)}>
                                     {
