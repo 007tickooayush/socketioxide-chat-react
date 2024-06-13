@@ -20,10 +20,10 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
 
 
     useEffect(() => {
-        console.log('navbar tab dialog mounted', tabVal);
-        console.log('currentTab :>> ', currentTab);
+        // console.log('navbar tab dialog mounted', tabVal);
+        // console.log('currentTab :>> ', currentTab);
         if (tabVal == 1) {
-            console.log('General chat');
+            // console.log('General chat');
             setDisabledAccept(false);
         }
 
