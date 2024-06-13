@@ -1,4 +1,4 @@
-import { Dialog, DialogContentText, DialogTitle, Grid, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
+import { Grid, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react'
 import NavDrawer from './NavDrawer';
 import { Link } from 'react-router-dom';
@@ -15,14 +15,10 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
     // Check if the dimensions are the same
     const isSameDim = useMediaQuery(theme.breakpoints.down('sm'));
 
-    /**
-     * 
-     * @param {React.MouseEvent} e react mouse event
-     */
     const handleTabClick = (e, tab) => {
         const { id, name, isGroup } = tab;
         if (isGroup) {
-            console.log('Join a group');
+            // console.log('Join a group');
             setIsDialogOpen(true);
             setCurrentTab(tab);
         }
@@ -40,7 +36,7 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                     :
                     (
                         <Grid container sx={{ placeItems: 'center', justifyContent: 'center' }}>
-                            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTab={currentTab} setTabVal={setTabVal} />
+                            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTab={currentTab} setTabVal={setTabVal} isConnectedState={isConnectedState} />
                             <Grid item sm={10} md={8} xl={10}>
                                 <Tabs value={tabVal} textColor="inherit" onChange={(e, v) => setTabVal(v)}>
                                     {
