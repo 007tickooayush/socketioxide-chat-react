@@ -17,21 +17,6 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     const { currentTab, setCurrentTab } = currentTabState;
     // const { id, name, isGroup, route } = currentTab; // not dependable as its not maintained in a state, passed on each update of tab selection
 
-
-
-    useEffect(() => {
-        // console.log('navbar tab dialog mounted', tabVal);
-        // console.log('currentTab :>> ', currentTab);
-        if (tabVal == 1) {
-            // console.log('General chat');
-            setDisabledAccept(false);
-        }
-
-        return () => {
-            setDisabledAccept(true);
-        }
-    }, [tabVal, currentTab, disabledAccept]);
-
     useEffect(() => {
 
         if (!accepted && !isDialogOpen) {
@@ -41,29 +26,36 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
 
         // console.log('accepted, isDialogOpen :>> ', accepted, isDialogOpen);
         // if (name == 'General Char') setDisabledAccept(false);
-    }, [accepted, isDialogOpen, socket, disabledAccept]);
+        console.log('currentTab, tabVal :>> ', currentTab, tabVal);
+        // if (tabVal == 1) {
+        //     setDisabledAccept(false);
+        // } 
+        // else {
+        //     setDisabledAccept(true)
+        // }
 
-    // useEffect(() => {
-    //     if(name !== "General Chat") {
-
-    //     }
-    // }, [disabledAccept]);
+    }, [accepted, isDialogOpen, currentTab, recName, tabVal, disabledAccept]);
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
         setAccepted(false);
+        setDisabledAccept(true);
+        setRecName('');
     }
 
     const handleAcceptance = () => {
         setAccepted(true);
         setIsDialogOpen(false);
+        setDisabledAccept(true);
+        setRecName('');
+
     }
 
-    // const handleRecNameChange = (e) => {
-    //     setTimeout(() => {
-    //         console.log(e.target.value)
-    //     }, 3000)
-    // }
+    const handleRecChange = (rec) => {
+        if (rec.length > 3) {
+            setDisabledAccept(false);
+        }
+    }
 
     return (
         <Dialog open={isDialogOpen}> {/* onClose={handleDialogClose} */}
@@ -87,20 +79,25 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
                                         Do you want to join the group {currentTab.name} ?
                                     </DialogContentText>
                                     {
-                                        (currentTab.name != "General Chat") &&
-                                        <FormControl>
-                                            <TextField
-                                                id='recName'
-                                                type='text'
-                                                variant='outlined'
-                                                placeholder='Provide Room/Reciever Name'
-                                                onChange={(e) => setRecName(e.target.value)}
-                                            />
-                                        </FormControl>
+                                        // If the selected tabs are not About or General Chat Tabs
+                                        (tabVal !== 0 && tabVal !== 1)
+                                            ?
+                                            (
+                                                <>
+                                                    <TextField id='recNameInput' type='text' placeholder='Reciever/Group name' onChange={(e) => handleRecChange(e.target.value)} />
+                                                    <Box padding={2} >
+                                                        <Button variant='outlined' onClick={handleAcceptance} disabled={disabledAccept}>Yes</Button>
+                                                    </Box>
+                                                </>
+
+                                            )
+                                            :
+                                            (
+                                                <Box padding={2} >
+                                                    <Button variant='outlined' onClick={handleAcceptance}>Yes</Button>
+                                                </Box>
+                                            )
                                     }
-                                    <Box padding={2} >
-                                        <Button variant='outlined' onClick={handleAcceptance} disabled={disabledAccept}>Yes</Button>
-                                    </Box>
                                 </Box>
                             </Box>
                         </>
