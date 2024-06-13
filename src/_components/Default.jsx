@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Dialog, DialogTitle } from '@mui/material'
 import { Outlet, useNavigate } from 'react-router'
 import Navbar from './_nav/Navbar'
 import { labels } from '../_docs/tabs.json';
@@ -51,9 +51,9 @@ const Default = () => {
         <Box>
             <Navbar tabs={tabs} username={username} setUsername={setUsername} isConnectedState={{ isConnected, setIsConnected }} />
             <Box display={'flex'} justifyContent={'center'} marginBottom={2} paddingBottom={2}>
-                <UnameDisplayTag username={username}/>
+                <UnameDisplayTag username={username} />
             </Box>
-            <Outlet context={{ count, setCount, username, isConnectedState:{isConnected, setIsConnected}, setUsername }} />
+            <Outlet context={{ count, setCount, username, isConnectedState: { isConnected, setIsConnected }, setUsername, tabsState: { tabs, setTabs } }} />
         </Box>
     )
 }

@@ -3,22 +3,26 @@
         {
             "id": 1,
             "name": "About",
-            "route": "/info"
+            "route": "/info",
+            "isGroup": false
         },
         {
             "id": 2,
             "name": "General Chat",
-            "route": "/general"
+            "route": "/general",
+            "isGroup": true
         },
         {
             "id": 3,
             "name": "Private Chat",
-            "route": "/private"
+            "route": "/private",
+            "isGroup": true
         },
         {
             "id": 4,
             "name": "Custom Chat",
-            "route": "/custom"
+            "route": "/custom",
+            "isGroup": true
         }
     ]
 }

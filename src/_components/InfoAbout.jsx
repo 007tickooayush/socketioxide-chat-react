@@ -1,4 +1,3 @@
-import { CloudOffOutlined } from '@mui/icons-material';
 import { Box, Container, List, ListItem, Typography } from '@mui/material'
 import React from 'react'
 import { useOutletContext } from 'react-router'
@@ -8,9 +7,11 @@ const InfoAbout = () => {
     const { username, isConnectedState, setUsername } = useOutletContext();
 
     return (
-        // <Container sx={{minHeight:'100%'}}>
-        <>
+        <Container sx={{ minHeight: '100%' }} maxWidth='100vw'>
             <Box>
+                <Typography variant='body2' margin={4}>
+                    {username !== null && `Weclome, ${username}! Here are some instructions to make your expereince better.`}
+                </Typography>
                 <Box display={'flex'} flexDirection={'column'} flexWrap={'wrap'} justifyContent={'center'} alignItems={'center'}>
                     <Typography variant='h6' marginBottom={2}>
                         About the Web application
@@ -56,8 +57,7 @@ const InfoAbout = () => {
                     </List>
                 </Box>
             </Box>
-        </>
-        // </Container>
+        </Container>
     )
 }
 

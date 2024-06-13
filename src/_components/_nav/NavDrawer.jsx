@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ConnectedState from './ConnectedState';
 import UnameDisplayTag from './UnameDisplayTag';
 
-const NavDrawer = ({ username, setUsername, tabs, isConnectedState }) => {
+const NavDrawer = ({ username, setUsername, tabs, isConnectedState, handleTabClick }) => {
     const [open, setOpen] = useState(false);
     // const { isConnected, setIsConnected } = isConnectedState;
     return (
@@ -31,7 +31,7 @@ const NavDrawer = ({ username, setUsername, tabs, isConnectedState }) => {
                 </List>
             </Drawer>
             <Grid container sx={{ placeItems: 'center' }}>
-                <Grid item sm={8} sx={{ margin: 'auto' }}>
+                <Grid item sm={8} sx={{ marginRight: 'auto' }}>
                     {/* <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} alignItems={'start'} justifyContent={'start'} marginBottom={4}> */}
                         <Typography variant='caption' paddingRight={1} fontWeight={'light'}> Connected User:</Typography>
                         <Typography variant='caption' fontWeight={'medium'}>{username ?? "NOT CONNECTED (OFFLINE)"}</Typography>
