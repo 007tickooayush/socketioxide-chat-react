@@ -1,10 +1,13 @@
 import { Box, Button, FormControl, Grid, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { socket } from '../../_utils/socket';
+import { useOutletContext } from 'react-router';
 
 const MessageSendHandle = () => {
 
     const [sentMsg, setSentMsg] = useState('');
+    const [msgList, setMsgList] = useState([]); // append the messages to this list
+    const { username } = useOutletContext();
 
     useEffect(() => {
         socket.on('response', (data) => {
@@ -23,7 +26,7 @@ const MessageSendHandle = () => {
 
     const handleSendSocket = () => {
         if (sentMsg) {
-            socket.emit("message", { room: "general", message: sentMsg });
+            socket.emit("message", { room: "general", sender: username, message: sentMsg });
             setSentMsg('');
         }
     }
