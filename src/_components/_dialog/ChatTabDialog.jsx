@@ -3,8 +3,9 @@ import { Box, Button, Dialog, DialogContentText, DialogTitle, FormControl, IconB
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import { socket } from '../../_utils/socket';
+import { handleSocketEvent } from '../../_utils/socketEvents';
 
-const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedState }) => {
+const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedState, username }) => {
     const navigate = useNavigate();
 
     const [accepted, setAccepted] = useState(false);
@@ -15,7 +16,6 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     const { isConnected, setIsConnected } = isConnectedState;
     const { tabVal, setTabVal } = tabValState;
     const { currentTab, setCurrentTab } = currentTabState;
-    // const { id, name, isGroup, route } = currentTab; // not dependable as its not maintained in a state, passed on each update of tab selection
 
     useEffect(() => {
 
@@ -23,17 +23,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
             navigate('/info');
             setTabVal(0);
         }
-
-        // console.log('accepted, isDialogOpen :>> ', accepted, isDialogOpen);
-        // if (name == 'General Char') setDisabledAccept(false);
-        console.log('currentTab, tabVal :>> ', currentTab, tabVal);
-        // if (tabVal == 1) {
-        //     setDisabledAccept(false);
-        // } 
-        // else {
-        //     setDisabledAccept(true)
-        // }
-        console.log('recName :>> ', recName);
+        // console.log('currentTab, tabVal :>> ', currentTab, tabVal);
     }, [accepted, isDialogOpen, currentTab, recName, tabVal, disabledAccept]);
 
     const handleDialogClose = () => {
@@ -48,7 +38,9 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
         setIsDialogOpen(false);
         setDisabledAccept(true);
         setRecName('');
-
+        // console.log('recName :>> ', recName);
+        // perform the socket room operations
+        handleSocketEvent(username, recName, currentTab);
     }
 
     const handleRecChange = (rec) => {
