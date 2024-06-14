@@ -33,7 +33,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
         // else {
         //     setDisabledAccept(true)
         // }
-
+        console.log('recName :>> ', recName);
     }, [accepted, isDialogOpen, currentTab, recName, tabVal, disabledAccept]);
 
     const handleDialogClose = () => {
@@ -54,6 +54,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     const handleRecChange = (rec) => {
         if (rec.length > 3) {
             setDisabledAccept(false);
+            setRecName(rec);
         }
     }
 
