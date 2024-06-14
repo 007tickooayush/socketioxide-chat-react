@@ -3,21 +3,42 @@ import React, { useEffect, useState } from 'react'
 import { socket } from '../../_utils/socket';
 import { useOutletContext } from 'react-router';
 
-const MessageSendHandle = () => {
+const MessageSendHandle = ({ msgListState }) => {
 
     const [sentMsg, setSentMsg] = useState('');
-    const [msgList, setMsgList] = useState([]); // append the messages to this list
+    const { msgList, setMsgList } = msgListState;
+
     const { username } = useOutletContext();
 
     useEffect(() => {
         socket.on('response', (data) => {
-            console.log('data :>> ', data);
+            
+
+            let cachedMessagesObject = JSON.parse(localStorage.getItem('generalMessages'));
+            console.log('messages :>> ', cachedMessagesObject);
+            if (cachedMessagesObject) {
+                console.log('response event data :>> ', data);
+                cachedMessagesObject.messages.push(data);
+                localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
+            }
+            // else {
+            //     cachedMessagesObject.messages.push(data);
+            //     localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
+            // }
+            setMsgList([...msgList, data]);
         });
 
         return () => {
             socket.off('response');
         }
-    }, [socket, sentMsg]);
+    }, [socket, sentMsg, msgList]);
+
+
+    // useEffect(() => {
+    //     let messages = JSON.parse(localStorage.getItem('generalMessages'));
+    //     messages.push(data);
+    //     localStorage.setItem('generalMessages', JSON.stringify(messages));
+    // }, [msg])
 
     const handleSendMessage = (msg) => {
         setSentMsg(msg);
@@ -33,7 +54,7 @@ const MessageSendHandle = () => {
 
     return (
         <FormControl sx={{ width: '100%' }}>
-            <Grid container sx={{ placeItems: 'center' }}>
+            <Grid container sx={{ placeItems: 'center' }} padding={4}>
                 <Grid item xl={11} lg={11} md={11} sm={11} xs={11} paddingRight={2}>
                     <TextField id='sentMsg' label='Message' value={sentMsg} onChange={(e) => handleSendMessage(e.target.value)} fullWidth />
                 </Grid>
