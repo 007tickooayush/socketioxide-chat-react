@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Button, Container, Link, Typography } from '@mui/material'
 import { useOutletContext } from 'react-router'
 import { socket } from '../../_utils/socket';
+import MessageSendHandle from '../_messages/MessageSendHandle';
 
 const GeneralChat = () => {
 
@@ -25,6 +26,7 @@ const GeneralChat = () => {
                 <Typography variant='h4'>General Chat</Typography>
                 <Typography variant='h6'>Connected User: {username}</Typography>
             </Container>
+            <MessageSendHandle />
         </Box>
     )
 }

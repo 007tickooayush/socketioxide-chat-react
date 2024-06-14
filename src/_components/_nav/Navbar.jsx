@@ -30,13 +30,13 @@ const Navbar = ({ tabs, username, setUsername, isConnectedState }) => {
                 isSameDim ?
                     (
                         <>
-                            <NavDrawer tabs={tabs} username={username} setUsername={setUsername} isConnectedState={isConnectedState} />
+                            <NavDrawer tabs={tabs} username={username} setUsername={setUsername} dialogState={{ isDialogOpen, setIsDialogOpen }} currentTabState={{ currentTab, setCurrentTab }} tabValState={{ tabVal, setTabVal }} isConnectedState={isConnectedState} />
                         </>
                     )
                     :
                     (
                         <Grid container sx={{ placeItems: 'center', justifyContent: 'center' }}>
-                            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTabState={{currentTab, setCurrentTab}} tabValState={{tabVal, setTabVal}} isConnectedState={isConnectedState} username={username} />
+                            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTabState={{ currentTab, setCurrentTab }} tabValState={{ tabVal, setTabVal }} isConnectedState={isConnectedState} username={username} />
                             <Grid item sm={10} md={8} xl={10}>
                                 <Tabs value={tabVal} textColor="inherit" onChange={(e, v) => setTabVal(v)}>
                                     {
