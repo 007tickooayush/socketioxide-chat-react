@@ -56,6 +56,7 @@ const MessageSendHandle = ({ msgListState }) => {
         if (sentMsg) {
             socket.emit("message", { room: "general", sender: username, message: sentMsg });
             setSentMsg('');
+            console.log('msgList :>> ', msgList);
         }
     }
 
