@@ -18,14 +18,21 @@ const MessageSendHandle = ({ msgListState }) => {
             console.log('messages :>> ', cachedMessagesObject);
             if (cachedMessagesObject) {
                 console.log('response event data :>> ', data);
-                cachedMessagesObject.messages.push(data);
+                // cachedMessagesObject.messages.push(data);
+                cachedMessagesObject.messages.unshift(data);
+
+                // keep the truncated limit of messages to 20 inside a group
+                if(cachedMessagesObject.messages.length > 20) {
+                    cachedMessagesObject.messages.pop();
+                }
+
                 localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
             }
             // else {
             //     cachedMessagesObject.messages.push(data);
             //     localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
             // }
-            setMsgList([...msgList, data]);
+            setMsgList([data, ...msgList]);
         });
 
         return () => {
