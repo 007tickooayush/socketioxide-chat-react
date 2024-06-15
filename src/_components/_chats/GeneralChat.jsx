@@ -7,7 +7,7 @@ import MessageSendHandle from '../_messages/MessageSendHandle';
 const GeneralChat = () => {
 
     const { username } = useOutletContext();
-    const [msgList, setMsgList] = useState({}); // append the messages to this list
+    const [msgList, setMsgList] = useState([]); // append the messages to this list
 
     useEffect(() => {
         console.log('General Chat Component Mounted');
@@ -37,8 +37,21 @@ const GeneralChat = () => {
                 display: 'flex',
                 overflowY: 'scroll',
                 height: '60vh',
+                flexDirection: 'column',
             }}>
-                The text to display here
+                {
+                    // Rough implementation of the MessageSendHandle component
+
+                    msgList &&
+                    msgList.map((msg, idx) => {
+                        return (
+                            <Box key={idx} display={'flex'} flexWrap={'wrap'} flexDirection={'column'} alignItems={msg.sender == username ? 'flex-end' : 'flex-start'} >
+                                <Typography variant='caption' fontWeight={'bold'}>{msg.sender}</Typography>
+                                <Typography variant='h6'>{msg.message}</Typography>
+                            </Box>
+                        )
+                    })
+                }
             </Box>
             <MessageSendHandle msgListState={{ msgList, setMsgList }} />
         </Box>
