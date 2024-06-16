@@ -47,6 +47,7 @@ const GeneralChat = () => {
                         return (
                             <Box key={idx} display={'flex'} flexWrap={'wrap'} flexDirection={'column'} alignItems={msg.sender == username ? 'flex-end' : 'flex-start'} >
                                 <Typography variant='caption' fontWeight={'bold'}>{msg.sender}</Typography>
+                                <Typography variant='caption'>{msg.date_time}</Typography>
                                 <Typography variant='h6'>{msg.message}</Typography>
                             </Box>
                         )

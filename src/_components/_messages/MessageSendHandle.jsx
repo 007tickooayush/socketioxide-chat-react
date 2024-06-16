@@ -24,6 +24,8 @@ const MessageSendHandle = ({ msgListState }) => {
                 // keep the truncated limit of messages to 20 inside a group
                 if(cachedMessagesObject.messages.length > 20) {
                     cachedMessagesObject.messages.pop();
+                    msgList.pop();
+                    setMsgList(msgList);
                 }
 
                 localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
