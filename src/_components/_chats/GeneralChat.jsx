@@ -3,6 +3,7 @@ import { Box, Button, Container, Link, Typography } from '@mui/material'
 import { useOutletContext } from 'react-router'
 import { socket } from '../../_utils/socket';
 import MessageSendHandle from '../_messages/MessageSendHandle';
+import { formatDate } from '../../_utils/utilities';
 
 const GeneralChat = () => {
 
@@ -47,7 +48,7 @@ const GeneralChat = () => {
                         return (
                             <Box key={idx} display={'flex'} flexWrap={'wrap'} flexDirection={'column'} alignItems={msg.sender == username ? 'flex-end' : 'flex-start'} >
                                 <Typography variant='caption' fontWeight={'bold'}>{msg.sender}</Typography>
-                                <Typography variant='caption'>{msg.date_time}</Typography>
+                                <Typography variant='caption'>{formatDate(msg.date_time)}</Typography>
                                 <Typography variant='h6'>{msg.message}</Typography>
                             </Box>
                         )

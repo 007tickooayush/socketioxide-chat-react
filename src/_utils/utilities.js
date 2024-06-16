@@ -23,6 +23,17 @@ const useDebounce = (val, delay) => {
     return value;
 }
 
+/**
+ * 
+ * @param {string} dateStr Get the fully formatted Date with the timezone until seconds and return the formatted date
+ */
+const formatDate = (dateStr) => {
+    // NOTE: the function will display the date in the zone of the respective user's timezone and in the format of YYYY-MM-DD HH:MM:SS
+    const fullDate = new Date(dateStr);
+    return `${fullDate.getFullYear()}-${fullDate.getMonth() + 1}-${fullDate.getDate()} ${fullDate.getHours()}:${fullDate.getMinutes()}:${fullDate.getSeconds()}`
+};
+
 export {
-    useDebounce
+    useDebounce,
+    formatDate
 }
