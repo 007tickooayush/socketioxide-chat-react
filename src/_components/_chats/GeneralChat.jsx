@@ -7,8 +7,8 @@ import { formatDate } from '../../_utils/utilities';
 
 const GeneralChat = () => {
 
-    const { username } = useOutletContext();
-    const [msgList, setMsgList] = useState([]); // append the messages to this list
+    const { username, msgListState } = useOutletContext();
+    const { msgList, setMsgList } = msgListState;
 
     useEffect(() => {
         console.log('General Chat Component Mounted');
@@ -55,7 +55,7 @@ const GeneralChat = () => {
                     })
                 }
             </Box>
-            <MessageSendHandle msgListState={{ msgList, setMsgList }} />
+            <MessageSendHandle />
         </Box>
     )
 }

@@ -12,6 +12,7 @@ const Default = () => {
     const [username, setUsername] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
 
+    const [msgList, setMsgList] = useState([]); // messages list for the screens
 
     const navigate = useNavigate();
 
@@ -53,7 +54,7 @@ const Default = () => {
             <Box display={'flex'} justifyContent={'center'} marginBottom={2} paddingBottom={2}>
                 <UnameDisplayTag username={username} />
             </Box>
-            <Outlet context={{ count, setCount, username, isConnectedState: { isConnected, setIsConnected }, setUsername, tabsState: { tabs, setTabs } }} />
+            <Outlet context={{ count, setCount, username, isConnectedState: { isConnected, setIsConnected }, setUsername, tabsState: { tabs, setTabs }, msgListState: { msgList, setMsgList } }} />
         </Box>
     )
 }
