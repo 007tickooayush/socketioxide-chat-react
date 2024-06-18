@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { socket } from '../../_utils/socket';
 import { useOutletContext } from 'react-router';
 
-const MessageSendHandle = () => {
+const MessageSendHandle = ({room}) => {
 
     const [sentMsg, setSentMsg] = useState('');
 
@@ -24,7 +24,7 @@ const MessageSendHandle = () => {
                 cachedMessagesObject.messages.unshift(data);
 
                 // keep the truncated limit of messages to 20 inside a group
-                if (cachedMessagesObject.messages.length > 20) {
+                if (cachedMessagesObject.messages.length >= 20) {
                     cachedMessagesObject.messages.pop();
                     msgList.pop();
                     setMsgList(msgList);
@@ -56,7 +56,8 @@ const MessageSendHandle = () => {
         // console.log('sentMsg :>> ', sentMsg);
     };
 
-    const handleSendSocket = () => {
+    // redefine the socket event for the particular room from props
+    const handleSendSocket = (e) => {
         if (sentMsg) {
             socket.emit("message", { room: "general", sender: username, message: sentMsg });
             setSentMsg('');
@@ -64,14 +65,25 @@ const MessageSendHandle = () => {
         }
     }
 
+    /**
+     * 
+     * @param {React.KeyboardEvent} e keyboard event object
+     */
+    const handleKeyPress = (e) => {
+        // console.log('e.key :>> ', e.key);
+        if (e.key === 'Enter' && sentMsg.trim() !== '') {
+            handleSendSocket();
+        }
+    }
+
     return (
         <FormControl sx={{ width: '100%' }}>
             <Grid container sx={{ placeItems: 'start' }} padding={4}>
                 <Grid item xl={11} lg={11} md={11} sm={11} xs={11} paddingRight={2} height={'100%'} textOverflow={'ellipsis'} >
-                    <TextField id='sentMsg' type='text' label='Message' value={sentMsg} onChange={(e) => handleSendMessage(e.target.value)} fullWidth multiline />
+                    <TextField id='sentMsg' type='text' label='Message' value={sentMsg} onChange={(e) => handleSendMessage(e.target.value)} fullWidth multiline /> {/* onKeyDown={(e) => handleKeyPress(e)} */}
                 </Grid>
                 <Grid item xl={1} lg={1} md={1} sm={1} xs={1} height={'100%'}>
-                    <Button variant='outlined' fullWidth sx={{ height: '100%', padding: 2 }} onClick={handleSendSocket}>Send</Button>
+                    <Button variant='outlined' fullWidth sx={{ height: '100%', padding: 2 }} onClick={(e) => handleSendSocket(e)}>Send</Button>
                 </Grid>
             </Grid>
 
