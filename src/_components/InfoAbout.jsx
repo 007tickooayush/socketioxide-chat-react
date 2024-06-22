@@ -50,6 +50,11 @@ const InfoAbout = () => {
                             </Typography>
                         </ListItem>
                         <ListItem>
+                            <Typography variant='body1' align='left'>
+                                - If the user tries to switch groups mid conversation, using the navigation tab after joining a group, the user will be removed from the group and redirected to default screeng.
+                            </Typography>
+                        </ListItem>
+                        <ListItem>
                             <Typography variant='body1' align='left' fontWeight={'bold'}>
                                 - NOTE: The application does not display more than 20 messages inside a group if left by the user to provide optimal performance and better user experience. Also the user has to follow the generated username id which is generated at the instant whenever the user connects/reconnects to the server. As anonymity being the concern, the user does not need to provide its details to generate the username in order to interact with other users.
                             </Typography>

@@ -37,7 +37,7 @@ const GeneralChat = () => {
                 <Typography variant='h6'>Connected User: {username}</Typography>
             </Container>
             <MessageDisplayHandle />
-            <MessageSendHandle />
+            <MessageSendHandle room={"general"}/>
         </Box>
     )
 }

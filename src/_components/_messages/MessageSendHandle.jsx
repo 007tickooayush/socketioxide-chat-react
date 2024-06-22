@@ -59,7 +59,7 @@ const MessageSendHandle = ({room}) => {
     // redefine the socket event for the particular room from props
     const handleSendSocket = (e) => {
         if (sentMsg) {
-            socket.emit("message", { room: "general", sender: username, message: sentMsg });
+            socket.emit("message", { room: room, sender: username, message: sentMsg });
             setSentMsg('');
             console.log('msgList :>> ', msgList);
         }

@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import { socket } from '../../_utils/socket';
 import { handleSocketEvent } from '../../_utils/socketEvents';
+import GeneralTabDialog from './GeneralTabDialog';
+import PrivateTabDialog from './PrivateTabDialog';
+import CustomTabDialog from './CustomTabDialog';
 
 const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedState, username }) => {
     const navigate = useNavigate();
@@ -71,25 +74,31 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
                                     <DialogContentText>
                                         Do you want to join the group {currentTab.name} ?
                                     </DialogContentText>
+                                    {/* NOTE: Using the tabVal which is the focused or selected navigation tab item is more stable as compared to using currentTab state to conditionally rendering the dialog component, as its a state with primitive datatype and more proactive updates. */}
                                     {
-                                        // If the selected tabs are not About or General Chat Tabs
-                                        (tabVal !== 0 && tabVal !== 1)
-                                            ?
-                                            (
-                                                <>
-                                                    <TextField id='recNameInput' type='text' placeholder='Reciever/Group name' onChange={(e) => handleRecChange(e.target.value)} />
-                                                    <Box padding={2} >
-                                                        <Button variant='outlined' onClick={handleAcceptance} disabled={disabledAccept}>Yes</Button>
-                                                    </Box>
-                                                </>
 
-                                            )
-                                            :
-                                            (
-                                                <Box padding={2} >
-                                                    <Button variant='outlined' onClick={handleAcceptance}>Yes</Button>
-                                                </Box>
-                                            )
+                                        /// FOR WHEN THE SELECTED TAB Value is 1 or the SELECTED TAB VALUE IS "Custom Chat"
+                                        // currentTab.name = "Custom Chat" &&
+                                        tabVal == 3 &&
+                                        (
+                                            <CustomTabDialog handleAcceptance={handleAcceptance} handleRecChange={handleRecChange} disabledAccept={disabledAccept} />
+                                        )
+                                    }
+                                    {
+                                        /// FOR WHEN THE SELECTED TAB Value is 1 or the SELECTED TAB VALUE IS "Private Chat"
+                                        // currentTab.name == "Private Chat" &&
+                                        tabVal == 2 &&
+                                        (
+                                            <PrivateTabDialog handleAcceptance={handleAcceptance} handleRecChange={handleRecChange} disabledAccept={disabledAccept} />
+                                        )
+                                    }
+                                    {
+                                        /// FOR WHEN THE SELECTED TAB Value is 1 or the SELECTED TAB VALUE IS "General Chat"
+                                        // currentTab.name == "General Chat" &&
+                                        tabVal == 1 &&
+                                        (
+                                            <GeneralTabDialog handleAcceptance={handleAcceptance} />
+                                        )
                                     }
                                 </Box>
                             </Box>
