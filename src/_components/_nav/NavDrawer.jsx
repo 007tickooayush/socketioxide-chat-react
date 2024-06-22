@@ -1,17 +1,19 @@
 import { CloudOffOutlined, CloudOutlined, MenuOutlined } from '@mui/icons-material';
 import { Box, Drawer, Grid, IconButton, List, ListItem, ListItemButton, ListItemText, Tab, Tabs, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import ConnectedState from './ConnectedState';
 import UnameDisplayTag from './UnameDisplayTag';
 import ChatTabDialog from '../_dialog/ChatTabDialog';
+import { AppContext } from '../../_utils/context';
 
-const NavDrawer = ({ username, setUsername, tabs, dialogState, currentTabState, tabValState, isConnectedState }) => {
+const NavDrawer = ({ tabs, dialogState, currentTabState, tabValState, isConnectedState }) => {
     const [open, setOpen] = useState(false);
     // const { isConnected, setIsConnected } = isConnectedState;
-    const { isDialogOpen, setIsDialogOpen }  = dialogState;
-    const { currentTab, setCurrentTab }  = currentTabState;
-    const { tabVal, setTabVal }  = tabValState;
+    const { isDialogOpen, setIsDialogOpen } = dialogState;
+    const { currentTab, setCurrentTab } = currentTabState;
+    const { tabVal, setTabVal } = tabValState;
+    const { username, setUsername } = useContext(AppContext);
 
     // <List>
     //     {
@@ -39,11 +41,11 @@ const NavDrawer = ({ username, setUsername, tabs, dialogState, currentTabState, 
 
     return (
         <Box>
-            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTabState={{ currentTab, setCurrentTab }} tabValState={{ tabVal, setTabVal }} isConnectedState={isConnectedState} username={username} />
+            <ChatTabDialog dialogState={{ isDialogOpen, setIsDialogOpen }} currentTabState={{ currentTab, setCurrentTab }} tabValState={{ tabVal, setTabVal }} isConnectedState={isConnectedState} />
             <Drawer open={open} anchor='left' onClose={() => setOpen(false)} sx={{ padding: 4 }}>
                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} margin={2} >
                     <UnameDisplayTag username={username} />
-                    <ConnectedState isConnectedState={isConnectedState} setUsername={setUsername} isDisabled={false} />
+                    <ConnectedState isConnectedState={isConnectedState} isDisabled={false} />
                 </Box>
                 <Tabs value={tabVal} textColor="inherit" orientation="vertical" onChange={(e, v) => setTabVal(v)} >
                     {

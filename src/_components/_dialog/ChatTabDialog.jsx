@@ -1,14 +1,15 @@
 import { Close } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogContentText, DialogTitle, FormControl, IconButton, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import { socket } from '../../_utils/socket';
 import { handleSocketEvent } from '../../_utils/socketEvents';
 import GeneralTabDialog from './GeneralTabDialog';
 import PrivateTabDialog from './PrivateTabDialog';
 import CustomTabDialog from './CustomTabDialog';
+import { AppContext } from '../../_utils/context';
 
-const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedState, username }) => {
+const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedState }) => {
     const navigate = useNavigate();
 
     const [accepted, setAccepted] = useState(false);
@@ -19,6 +20,8 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     const { isConnected, setIsConnected } = isConnectedState;
     const { tabVal, setTabVal } = tabValState;
     const { currentTab, setCurrentTab } = currentTabState;
+
+    const {username} = useContext(AppContext);
 
     useEffect(() => {
 

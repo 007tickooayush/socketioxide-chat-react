@@ -1,20 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Box, Dialog, DialogTitle } from '@mui/material'
 import { Outlet, useNavigate } from 'react-router'
 import Navbar from './_nav/Navbar'
 import { labels } from '../_docs/tabs.json';
 import { socket } from '../_utils/socket'
 import UnameDisplayTag from './_nav/UnameDisplayTag';
+import { AppContext } from '../_utils/context';
 
 const Default = () => {
     const [count, setCount] = useState(0);
     const [tabs, setTabs] = useState([]);
-    const [username, setUsername] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
 
     const [msgList, setMsgList] = useState([]); // messages list for the screens
 
     const navigate = useNavigate();
+
+    const { username, setUsername } = useContext(AppContext);
 
     useEffect(() => {
         console.log('Default Component Mounted');
@@ -50,7 +52,7 @@ const Default = () => {
 
     return (
         <Box>
-            <Navbar tabs={tabs} username={username} setUsername={setUsername} isConnectedState={{ isConnected, setIsConnected }} />
+            <Navbar tabs={tabs} isConnectedState={{ isConnected, setIsConnected }} />
             <Box display={'flex'} justifyContent={'center'} marginBottom={2} paddingBottom={2}>
                 <UnameDisplayTag username={username} />
             </Box>

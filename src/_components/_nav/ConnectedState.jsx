@@ -1,10 +1,17 @@
 import { CloudOffOutlined, CloudOutlined } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { socket } from '../../_utils/socket';
+import { AppContext } from '../../_utils/context';
 
-const ConnectedState = ({ isConnectedState, setUsername, isDisabled }) => {
+const ConnectedState = ({ isConnectedState,  isDisabled }) => {
     const { isConnected, setIsConnected } = isConnectedState;
+
+    const { username, setUsername } = useContext(AppContext);
+
+    useEffect(() => {
+        console.log('ConnectedState username :>> ', username);
+    }, [username]); //socket, isConnected, setIsConnected, username
 
     const handleConnectState = () => {
         setIsConnected(!isConnected);
