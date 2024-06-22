@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react'
 import { socket } from '../../_utils/socket';
 import { AppContext } from '../../_utils/context';
 
-const ConnectedState = ({ isConnectedState,  isDisabled }) => {
+const ConnectedState = ({ isConnectedState, isDisabled }) => {
     const { isConnected, setIsConnected } = isConnectedState;
 
     const { username, setUsername } = useContext(AppContext);
@@ -13,10 +13,17 @@ const ConnectedState = ({ isConnectedState,  isDisabled }) => {
         console.log('ConnectedState username :>> ', username);
     }, [username]); //socket, isConnected, setIsConnected, username
 
+
     const handleConnectState = () => {
         setIsConnected(!isConnected);
         setUsername(null);
-        socket.connected ? socket.disconnect() : socket.connect();
+
+        if (socket.connected) {
+            socket.emit('remove', { username, room: "N/A", message: `User: ${username} Disconnecting` });
+        } else {
+            socket.connect();
+        }
+        // socket.connected ? socket.disconnect() : socket.connect();
     }
     return (
         <IconButton onClick={handleConnectState} disabled={isDisabled}>
