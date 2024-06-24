@@ -22,6 +22,7 @@ const ConnectedState = ({ isConnectedState, isDisabled }) => {
             socket.emit('remove', { username, room: "N/A", message: `User: ${username} Disconnecting` });
         } else {
             socket.connect();
+            
         }
         // socket.connected ? socket.disconnect() : socket.connect();
     }

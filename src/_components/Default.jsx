@@ -6,6 +6,7 @@ import { labels } from '../_docs/tabs.json';
 import { socket } from '../_utils/socket'
 import UnameDisplayTag from './_nav/UnameDisplayTag';
 import { AppContext } from '../_utils/context';
+import StartUserDialog from './_dialog/StartUserDialog';
 
 const Default = () => {
     const [count, setCount] = useState(0);
@@ -53,6 +54,7 @@ const Default = () => {
     return (
         <Box>
             <Navbar tabs={tabs} isConnectedState={{ isConnected, setIsConnected }} />
+            <StartUserDialog />
             <Box display={'flex'} justifyContent={'center'} marginBottom={2} paddingBottom={2}>
                 <UnameDisplayTag username={username} />
             </Box>

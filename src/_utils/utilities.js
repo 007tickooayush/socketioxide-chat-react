@@ -23,6 +23,10 @@ const useDebounce = (val, delay) => {
     return value;
 }
 
+const checkIsValidUsername = (username) => {
+    return /^[a-z][^A-Z]{4,}$/.test(username);
+}
+
 /**
  * 
  * @param {string} dateStr Get the fully formatted Date with the timezone until seconds and return the formatted date
@@ -35,5 +39,6 @@ const formatDate = (dateStr) => {
 
 export {
     useDebounce,
+    checkIsValidUsername,
     formatDate
 }
