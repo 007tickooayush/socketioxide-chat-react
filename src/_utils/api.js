@@ -1,7 +1,7 @@
 const serverApiUrl = import.meta.env.VITE_SERVER_SERVER_URL + '/api';
 
 export const checkUserExists = async (username) => {
-    const response = await fetch(`http://localhost:4040/api/check-username`, {
+    const response = await fetch(`${serverApiUrl}/check-username`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -17,10 +17,10 @@ export const checkUserExists = async (username) => {
     // } else {
     //     return { exists: false, error: response.statusText }
     // }
-    
+
     const data = await response.json();
     return data;
-    
+
 }
 
 // export const checkUserExists = (username) => {
@@ -32,3 +32,14 @@ export const checkUserExists = async (username) => {
 //         body: JSON.stringify({ username, generated_username: "" })
 //     }).then(response => response.json())
 // }
+
+export const checkServerHealthHttp = async () => {
+    const response = await fetch(`${serverApiUrl}/`);
+    if (response.ok) {
+        const data = await response.text();
+        console.log('data :>> ', data);
+        return { message: data, status: response.status };
+    } else {
+        return { status: 'error', error: response.status }
+    }
+}

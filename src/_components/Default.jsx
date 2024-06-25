@@ -7,6 +7,8 @@ import { socket } from '../_utils/socket'
 import UnameDisplayTag from './_nav/UnameDisplayTag';
 import { AppContext } from '../_utils/context';
 import StartUserDialog from './_dialog/StartUserDialog';
+import SimpleDialog from './_dialog/SimpleDialog';
+import { checkServerHealthHttp } from '../_utils/api';
 
 const Default = () => {
     const [count, setCount] = useState(0);
@@ -18,6 +20,23 @@ const Default = () => {
     const navigate = useNavigate();
 
     const { username, setUsername } = useContext(AppContext);
+
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
+    const [serverMessage, setServerMessage] = useState('');
+
+    const handleInfoClose = () => {
+        setIsInfoOpen(false);
+    }
+    useEffect(() => {
+        checkServerHealthHttp().then(res => {
+            if (res?.status === 200) {
+                setServerMessage('Server is Running Healthy!');
+            } else {
+                setServerMessage('Server is not running!');
+            }
+            setIsInfoOpen(true);
+        })
+    },[])
 
     useEffect(() => {
         console.log('Default Component Mounted');
@@ -53,6 +72,7 @@ const Default = () => {
 
     return (
         <Box>
+            <SimpleDialog title={"Server Health"} message={serverMessage} open={isInfoOpen} handleDialogClose={handleInfoClose} />
             <Navbar tabs={tabs} isConnectedState={{ isConnected, setIsConnected }} />
             <StartUserDialog />
             <Box display={'flex'} justifyContent={'center'} marginBottom={2} paddingBottom={2}>
