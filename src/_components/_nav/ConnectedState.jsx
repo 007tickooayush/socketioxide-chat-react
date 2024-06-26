@@ -9,10 +9,11 @@ const ConnectedState = ({ isConnectedState, isDisabled }) => {
 
     const { username, setUsername } = useContext(AppContext);
 
-    useEffect(() => {
-        console.log('ConnectedState username :>> ', username);
-    }, [username]); //socket, isConnected, setIsConnected, username
-
+    // useEffect(() => {
+    //     // TODO: socket event user_handle to be setup properly
+    //     // console.log('ConnectedState username :>> ', username);
+    //     // console.log('{ username: ownedUsername, generated_username: username } :>> ', { username: ownedUsername, generated_username: username });
+    // }, [username, isConnected, ownedUsername]);
 
     const handleConnectState = () => {
         setIsConnected(!isConnected);
@@ -20,9 +21,9 @@ const ConnectedState = ({ isConnectedState, isDisabled }) => {
 
         if (socket.connected) {
             socket.emit('remove', { username, room: "N/A", message: `User: ${username} Disconnecting` });
+            socket.disconnect(); // Keep this line here as the disconnect event is not trigered by "remove" socket event
         } else {
-            socket.connect();
-            
+            socket.connect();            
         }
         // socket.connected ? socket.disconnect() : socket.connect();
     }

@@ -19,7 +19,7 @@ const Default = () => {
 
     const navigate = useNavigate();
 
-    const { username, setUsername } = useContext(AppContext);
+    const { username, setUsername, ownedUsername, setOwnedUsername } = useContext(AppContext);
 
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const [serverMessage, setServerMessage] = useState('');
@@ -35,8 +35,10 @@ const Default = () => {
                 setServerMessage('Server is not running!');
             }
             setIsInfoOpen(true);
-        })
-    },[])
+        });
+        setOwnedUsername(localStorage.getItem('ownedUsername') ?? null);
+        console.log('ownedUsername :>> ', localStorage.getItem('ownedUsername'));
+    }, [])
 
     useEffect(() => {
         console.log('Default Component Mounted');
@@ -68,6 +70,28 @@ const Default = () => {
             }
         }
     }, [socket, navigate]);
+
+    useEffect(() => {
+        if (socket.connected) {
+            console.log('!!connected!!')
+
+            // NOTE: This Event should not be triggered multiple times and for that it is taken out of the ConnectedState Component, as it is supposed to be a lightweight transaction in backend database
+            socket.emit("user_handle", { username: ownedUsername ?? username, generated_username: username });
+        }
+        socket.on("user_handled", (data) => {
+            if(data?.owned_uname !== ownedUsername && data?.generated_uname !== username) {
+                setIsInfoOpen(true);
+                setServerMessage("User credentials not matching! Please try again!");                
+            } else {
+                console.log("user_handle: User handled successfully!")
+                // console.log('user_ event data :>> ', data);
+            }
+        });
+
+        return () => {
+            socket.off("user_handled");
+        }
+    }, [isConnected, username, ownedUsername]);
 
 
     return (
