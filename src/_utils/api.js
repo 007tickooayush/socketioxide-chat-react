@@ -34,12 +34,16 @@ export const checkUserExists = async (username) => {
 // }
 
 export const checkServerHealthHttp = async () => {
-    const response = await fetch(`${serverApiUrl}/`);
-    if (response.ok) {
-        const data = await response.text();
-        console.log('data :>> ', data);
-        return { message: data, status: response.status };
-    } else {
-        return { status: 'error', error: response.status }
+    try {
+        const response = await fetch(`${serverApiUrl}/`);
+        if (response.ok) {
+            const data = await response.text();
+            console.log('data :>> ', data);
+            return { message: data, status: response.status };
+        } else {
+            return { status: 500, error: response.status }
+        }
+    } catch (error) {
+        return { status: 400, error: error.message }
     }
 }
