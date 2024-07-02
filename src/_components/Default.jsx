@@ -20,7 +20,6 @@ const Default = () => {
     const navigate = useNavigate();
 
     const { username, setUsername, ownedUsername, setOwnedUsername } = useContext(AppContext);
-
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const [serverMessage, setServerMessage] = useState('');
 
@@ -79,9 +78,9 @@ const Default = () => {
             socket.emit("user_handle", { username: ownedUsername ?? username, generated_username: username });
         }
         socket.on("user_handled", (data) => {
-            if(data?.owned_uname !== ownedUsername && data?.generated_uname !== username) {
+            if (data?.owned_uname !== ownedUsername && data?.generated_uname !== username) {
                 setIsInfoOpen(true);
-                setServerMessage("User credentials not matching! Please try again!");                
+                setServerMessage("User credentials not matching! Please try again!");
             } else {
                 console.log("user_handle: User handled successfully!")
                 // console.log('user_ event data :>> ', data);

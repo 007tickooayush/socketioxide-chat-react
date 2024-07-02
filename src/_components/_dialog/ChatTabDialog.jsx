@@ -21,7 +21,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     const { tabVal, setTabVal } = tabValState;
     const { currentTab, setCurrentTab } = currentTabState;
 
-    const {username} = useContext(AppContext);
+    const { username } = useContext(AppContext);
 
     useEffect(() => {
 
@@ -73,9 +73,9 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
                             </Box>
                             <Box padding={4}>
                                 <Box display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
-                                    <DialogTitle>Join a group</DialogTitle>
+                                    <DialogTitle>Join a conversation</DialogTitle>
                                     <DialogContentText>
-                                        Do you want to join the group {currentTab.name} ?
+                                        Do you want to join the conversation {currentTab.name} ?
                                     </DialogContentText>
                                     {/* NOTE: Using the tabVal which is the focused or selected navigation tab item is more stable as compared to using currentTab state to conditionally rendering the dialog component, as its a state with primitive datatype and more proactive updates. */}
                                     {

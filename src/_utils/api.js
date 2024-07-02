@@ -14,7 +14,7 @@ export const checkUserExists = async (username) => {
         
         if(response.status === 302) {
             const data = await response.json();
-            console.log('api data :>> ', data);
+            // console.log('api data :>> ', data);
             return data;
         } else {
             return { exists: false, username: "user not found" }
