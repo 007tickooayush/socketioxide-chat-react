@@ -1,13 +1,38 @@
+import axios from "axios";
+
 const serverApiUrl = import.meta.env.VITE_SERVER_SERVER_URL + '/api';
 
 export const checkUserExists = async (username) => {
-    const response = await fetch(`${serverApiUrl}/check-username`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, generated_username: "" })
-    });
+    try {
+        const response = await fetch(`${serverApiUrl}/check-username`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username, generated_username: "" })
+        });
+        
+        if(response.status === 302) {
+            const data = await response.json();
+            console.log('api data :>> ', data);
+            return data;
+        } else {
+            return { exists: false, username: "user not found" }
+        }
+
+        // Axios throws error as the response status is 302 if username is found
+        // const resp = await axios.post(`${serverApiUrl}/check-username`, { username, generated_username: "" }).then((response) => {
+        //     response.status === 302 ? response : { exists: false, username: "user not found" }
+        // }).catch((error) => {
+        //     console.error('error :>> ', error);
+        //     return { exists: false, error: error.message };
+        // });
+        // console.log('resp.data :>> ', resp.data);
+
+    } catch (error) {
+        console.error('Error occured [checkUserExists] :>> ', error);
+        return { exists: false, error: error.message };
+    }
 
     // if (response.ok) {
     //     const data = await response.json();
@@ -17,9 +42,6 @@ export const checkUserExists = async (username) => {
     // } else {
     //     return { exists: false, error: response.statusText }
     // }
-
-    const data = await response.json();
-    return data;
 
 }
 
