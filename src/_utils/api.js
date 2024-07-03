@@ -14,6 +14,7 @@ export const checkUserExists = async (username) => {
         
         if(response.status === 302) {
             const data = await response.json();
+            // {"exists": true,"username": "hellsent","generated_username": "shaky-eye"}
             // console.log('api data :>> ', data);
             return data;
         } else {
