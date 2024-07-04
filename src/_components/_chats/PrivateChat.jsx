@@ -4,6 +4,7 @@ import MessageSendHandle from '../_messages/MessageSendHandle';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { AppContext } from '../../_utils/context';
 import MessageDisplayHandle from '../_messages/MessageDisplayHandle';
+import { socket } from '../../_utils/socket';
 
 const PrivateChat = () => {
     const [sentMsg, setSentMsg] = useState('');
@@ -23,9 +24,20 @@ const PrivateChat = () => {
     }, [])
 
     useEffect(() => {
-        console.log('privateReceiver PPP:>> ', privateReceiver);
+        // console.log('privateReceiver PPP:>> ', privateReceiver);
 
     }, [privateReceiver]);
+
+    useEffect(() => {
+        // socket.on('resp', data => {
+        //     console.log('resp data :>> ', data);
+        
+        // });
+
+        return () => {
+            // socket.off('resp');
+        }
+    }, [socket])
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', overflowX: 'hidden', width: '100%' }}>
@@ -35,7 +47,7 @@ const PrivateChat = () => {
             </Container>
             <MessageDisplayHandle />
             {/* receiver structure not completely defined yet! */}
-            <MessageSendHandle room={privateReceiver} />
+            <MessageSendHandle room={`${privateReceiver}`} />
         </Box>
     )
 }

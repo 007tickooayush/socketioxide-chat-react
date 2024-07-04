@@ -1,16 +1,17 @@
 import { Box, Button, FormControl, Grid, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { socket } from '../../_utils/socket';
 import { useOutletContext } from 'react-router';
+import { AppContext } from '../../_utils/context';
 
-const MessageSendHandle = ({room}) => {
+const MessageSendHandle = ({ room }) => {
 
     const [sentMsg, setSentMsg] = useState('');
 
-    const { msgListState } = useOutletContext();
+    const { msgListState, username } = useOutletContext();
     const { msgList, setMsgList } = msgListState;
 
-    const { username } = useOutletContext();
+    const { ownedUsername, privateReceiver } = useContext(AppContext);
 
     useEffect(() => {
         socket.on('response', (data) => {
@@ -39,8 +40,13 @@ const MessageSendHandle = ({room}) => {
             setMsgList([data, ...msgList]);
         });
 
+        socket.on('resp', (data) => {
+            console.log('resp data :>> ', data);
+        });
+
         return () => {
             socket.off('response');
+            socket.off('resp');
         }
     }, [socket, sentMsg, msgList]);
 
@@ -59,9 +65,14 @@ const MessageSendHandle = ({room}) => {
     // redefine the socket event for the particular room from props
     const handleSendSocket = (e) => {
         if (sentMsg) {
-            socket.emit("message", { room: room, sender: username, message: sentMsg });
-            setSentMsg('');
+            if (room === 'general') {
+                socket.emit("message", { room: room, sender: username, message: sentMsg });
+
+            } else {
+                socket.emit("private", { sender: ownedUsername, receiver: privateReceiver, message: sentMsg });
+            }
             console.log('msgList :>> ', msgList);
+            setSentMsg('');
         }
     }
 
