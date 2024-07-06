@@ -15,9 +15,8 @@ const MessageSendHandle = ({ room }) => {
 
     useEffect(() => {
         socket.on('response', (data) => {
-
-
             let cachedMessagesObject = JSON.parse(localStorage.getItem('generalMessages'));
+
             console.log('messages :>> ', cachedMessagesObject);
             if (cachedMessagesObject) {
                 console.log('response event data :>> ', data);
@@ -42,13 +41,61 @@ const MessageSendHandle = ({ room }) => {
 
         socket.on('resp', (data) => {
             console.log('resp data :>> ', data);
+
+            let cachedMessagesObject = JSON.parse(localStorage.getItem(`privateMessages:${privateReceiver}`));
+            // implement same as above for the private messages as well
+            if (cachedMessagesObject) {
+                console.log('resp event data :>> ', data);
+                // cachedMessagesObject.messages.push(data);
+                cachedMessagesObject.messages.unshift(data);
+
+                // keep the truncated limit of messages to 20 inside a group
+                if (cachedMessagesObject.messages.length >= 20) {
+                    cachedMessagesObject.messages.pop();
+                    msgList.pop();
+                    setMsgList(msgList);
+                }
+                localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
+            } else {
+                if(privateReceiver){
+                    cachedMessagesObject = { messages: [data, ...msgList] };
+                    localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
+                }
+            }
+            setMsgList([data, ...msgList]);
         });
+
+        socket.on('resp_back', data => {
+            let cachedMessagesObject = JSON.parse(localStorage.getItem(`privateMessages:${privateReceiver}`));
+            // implement same as above for the private messages as well
+            if (cachedMessagesObject) {
+                console.log('resp_back event data :>> ', data);
+                // cachedMessagesObject.messages.push(data);
+                cachedMessagesObject.messages.unshift(data);
+
+                // keep the truncated limit of messages to 20 inside a group
+                if (cachedMessagesObject.messages.length >= 20) {
+                    cachedMessagesObject.messages.pop();
+                    msgList.pop();
+                    setMsgList(msgList);
+                }
+                localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
+            } else {
+                // if(privateReceiver){
+                    cachedMessagesObject = { messages: [data, ...msgList] };
+                    localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
+                // }
+            }
+            setMsgList([data, ...msgList]);
+        })
 
         return () => {
             socket.off('response');
             socket.off('resp');
+            socket.off('resp_back');
         }
-    }, [socket, sentMsg, msgList]);
+    }, [socket, sentMsg, msgList, ownedUsername, privateReceiver]);
+    console.log('privateReceiver :>> ', privateReceiver);
 
 
     // useEffect(() => {
@@ -70,6 +117,7 @@ const MessageSendHandle = ({ room }) => {
 
             } else {
                 socket.emit("private", { sender: ownedUsername, receiver: privateReceiver, message: sentMsg });
+                // setMsgList([...msgList, { sender: ownedUsername, receiver: privateReceiver, message: sentMsg }]);
             }
             console.log('msgList :>> ', msgList);
             setSentMsg('');

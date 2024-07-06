@@ -9,11 +9,6 @@ const PrivateTabDialog = ({ handleAcceptance, handleRecChange, disabledAccept })
 
     const { privateReceiver, setPrivateReceiver } = useContext(AppContext);
 
-    useEffect(() => {
-        console.log('privateReceiver :>> ', privateReceiver);
-    }, [privateReceiver]);
-
-
     const handleNameChange = (name) => {
         handleRecChange(name);
         setPrivateReceiver(name);
