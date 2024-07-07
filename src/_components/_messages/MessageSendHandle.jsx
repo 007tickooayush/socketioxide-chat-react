@@ -95,8 +95,6 @@ const MessageSendHandle = ({ room }) => {
             socket.off('resp_back');
         }
     }, [socket, sentMsg, msgList, ownedUsername, privateReceiver]);
-    console.log('privateReceiver :>> ', privateReceiver);
-
 
     // useEffect(() => {
     //     let messages = JSON.parse(localStorage.getItem('generalMessages'));

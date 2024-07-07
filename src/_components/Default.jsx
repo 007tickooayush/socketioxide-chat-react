@@ -74,8 +74,7 @@ const Default = () => {
         if (socket.connected) {
             console.log('!!connected!!')
 
-            // NOTE: This Event should not be triggered multiple times and for that it is taken out of the ConnectedState Component, as it is supposed to be a lightweight transaction in backend database
-            socket.emit("user_handle", { username: ownedUsername ?? username, generated_username: username });
+            socket.emit("user_handle", { username: ownedUsername ?? username, generated_username: username, online: true });
         }
         socket.on("user_handled", (data) => {
             if (data?.owned_uname !== ownedUsername && data?.generated_uname !== username) {

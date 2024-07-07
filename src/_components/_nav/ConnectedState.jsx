@@ -7,7 +7,7 @@ import { AppContext } from '../../_utils/context';
 const ConnectedState = ({ isConnectedState, isDisabled }) => {
     const { isConnected, setIsConnected } = isConnectedState;
 
-    const { username, setUsername } = useContext(AppContext);
+    const { username, setUsername, ownedUsername } = useContext(AppContext);
 
     // useEffect(() => {
     //     // TODO: socket event user_handle to be setup properly
@@ -20,7 +20,7 @@ const ConnectedState = ({ isConnectedState, isDisabled }) => {
         setUsername(null);
 
         if (socket.connected) {
-            socket.emit('remove', { username, room: "N/A", message: `User: ${username} Disconnecting` });
+            socket.emit('remove', { generated_username: username, username: ownedUsername });
             socket.disconnect(); // Keep this line here as the disconnect event is not trigered by "remove" socket event
         } else {
             socket.connect();            
