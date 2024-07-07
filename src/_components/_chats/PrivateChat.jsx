@@ -24,20 +24,23 @@ const PrivateChat = () => {
     }, [])
 
     useEffect(() => {
-        // console.log('privateReceiver PPP:>> ', privateReceiver);
+        // set the messages List for the private chat
+        if(localStorage.getItem(`privateMessages:${privateReceiver}`)) {
+            setMsgList(JSON.parse(localStorage.getItem(`privateMessages:${privateReceiver}`)).messages);
+        }
 
     }, [privateReceiver]);
 
-    useEffect(() => {
-        // socket.on('resp', data => {
-        //     console.log('resp data :>> ', data);
+    // useEffect(() => {
+    //     // socket.on('resp', data => {
+    //     //     console.log('resp data :>> ', data);
         
-        // });
+    //     // });
 
-        return () => {
-            // socket.off('resp');
-        }
-    }, [socket])
+    //     return () => {
+    //         // socket.off('resp');
+    //     }
+    // }, [socket])
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', overflowX: 'hidden', width: '100%' }}>
