@@ -75,7 +75,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
                                 <Box display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
                                     <DialogTitle>Join a conversation</DialogTitle>
                                     <DialogContentText>
-                                        Do you want to join the conversation {currentTab.name} ?
+                                        Do you want to join the conversation mode: {currentTab.name} ?
                                     </DialogContentText>
                                     {/* NOTE: Using the tabVal which is the focused or selected navigation tab item is more stable as compared to using currentTab state to conditionally rendering the dialog component, as its a state with primitive datatype and more proactive updates. */}
                                     {
