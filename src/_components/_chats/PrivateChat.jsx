@@ -12,7 +12,7 @@ const PrivateChat = () => {
     const { username, msgListState } = useOutletContext();
     const { msgList, setMsgList } = msgListState;
 
-    const { privateReceiver, setPrivateReceiver } = useContext(AppContext);
+    const { ownedUsername, privateReceiver, setPrivateReceiver } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const PrivateChat = () => {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', overflowX: 'hidden', width: '100%' }}>
             <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 4, width: "100vw" }}>
                 <Typography variant='h4'>Private Chat</Typography>
-                <Typography variant='h6'>Connected User: {username}</Typography>
+                <Typography variant='h6'>Connected User: {ownedUsername}</Typography>
             </Container>
             <MessageDisplayHandle />
             {/* receiver structure not completely defined yet! */}
