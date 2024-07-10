@@ -30,7 +30,15 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
             setTabVal(0);
         }
         // console.log('currentTab, tabVal :>> ', currentTab, tabVal);
-    }, [accepted, isDialogOpen, currentTab, recName, tabVal, disabledAccept]);
+    }, [accepted, isDialogOpen, currentTab, tabVal]);
+
+    useEffect(() => {
+        if (recName.length > 3) {
+            setDisabledAccept(false);
+        } else {
+            setDisabledAccept(true);
+        }
+    }, [recName, disabledAccept]);
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
@@ -50,10 +58,7 @@ const ChatTabDialog = ({ dialogState, currentTabState, tabValState, isConnectedS
     }
 
     const handleRecChange = (rec) => {
-        if (rec.length > 3) {
-            setDisabledAccept(false);
-            setRecName(rec);
-        }
+        setRecName(rec);
     }
 
     return (

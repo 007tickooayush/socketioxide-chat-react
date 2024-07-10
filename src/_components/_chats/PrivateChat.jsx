@@ -7,10 +7,8 @@ import MessageDisplayHandle from '../_messages/MessageDisplayHandle';
 import { socket } from '../../_utils/socket';
 
 const PrivateChat = () => {
-    const [sentMsg, setSentMsg] = useState('');
-
-    const { username, msgListState } = useOutletContext();
-    const { msgList, setMsgList } = msgListState;
+    const { msgListState } = useOutletContext();
+    const { setMsgList } = msgListState;
 
     const { ownedUsername, privateReceiver, setPrivateReceiver } = useContext(AppContext);
 
@@ -21,7 +19,7 @@ const PrivateChat = () => {
         return () => {
             setPrivateReceiver(null);
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         // set the messages List for the private chat

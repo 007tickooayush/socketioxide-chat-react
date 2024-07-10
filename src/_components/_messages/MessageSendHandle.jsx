@@ -11,11 +11,17 @@ const MessageSendHandle = ({ room }) => {
     const { msgListState, username } = useOutletContext();
     const { msgList, setMsgList } = msgListState;
 
-    const { ownedUsername, privateReceiver } = useContext(AppContext);
+    const { ownedUsername, privateReceiver, customRec } = useContext(AppContext);
 
     useEffect(() => {
         socket.on('response', (data) => {
-            let cachedMessagesObject = JSON.parse(localStorage.getItem('generalMessages'));
+            let cachedMessagesObject;
+
+            if (data.room == "general") {
+                cachedMessagesObject = JSON.parse(localStorage.getItem('generalMessages'));
+            } else {
+                cachedMessagesObject = JSON.parse(localStorage.getItem(`custom:${customRec}`));
+            }
 
             console.log('messages :>> ', cachedMessagesObject);
             if (cachedMessagesObject) {
@@ -29,8 +35,12 @@ const MessageSendHandle = ({ room }) => {
                     msgList.pop();
                     setMsgList(msgList);
                 }
-
+                
+            }
+            if (data.room == "general") {
                 localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
+            } else {
+                localStorage.setItem(`custom:${customRec}`, JSON.stringify(cachedMessagesObject));
             }
             // else {
             //     cachedMessagesObject.messages.push(data);
@@ -57,7 +67,7 @@ const MessageSendHandle = ({ room }) => {
                 }
                 localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
             } else {
-                if(privateReceiver){
+                if (privateReceiver) {
                     cachedMessagesObject = { messages: [data, ...msgList] };
                     localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
                 }
@@ -82,8 +92,8 @@ const MessageSendHandle = ({ room }) => {
                 localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
             } else {
                 // if(privateReceiver){
-                    cachedMessagesObject = { messages: [data, ...msgList] };
-                    localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
+                cachedMessagesObject = { messages: [data, ...msgList] };
+                localStorage.setItem(`privateMessages:${privateReceiver}`, JSON.stringify(cachedMessagesObject));
                 // }
             }
             setMsgList([data, ...msgList]);
@@ -94,7 +104,7 @@ const MessageSendHandle = ({ room }) => {
             socket.off('resp');
             socket.off('resp_back');
         }
-    }, [socket, sentMsg, msgList, ownedUsername, privateReceiver]);
+    }, [socket, sentMsg, msgList, ownedUsername, privateReceiver, customRec]);
 
     // useEffect(() => {
     //     let messages = JSON.parse(localStorage.getItem('generalMessages'));
@@ -113,9 +123,13 @@ const MessageSendHandle = ({ room }) => {
             if (room === 'general') {
                 socket.emit("message", { room: room, sender: username, message: sentMsg });
 
-            } else {
+            }
+            else if (room == privateReceiver) {
                 socket.emit("private", { sender: ownedUsername, receiver: privateReceiver, message: sentMsg });
                 // setMsgList([...msgList, { sender: ownedUsername, receiver: privateReceiver, message: sentMsg }]);
+            }
+            else if (room == customRec) {
+                socket.emit("message", { room: room, sender: ownedUsername, message: sentMsg });
             }
             console.log('msgList :>> ', msgList);
             setSentMsg('');

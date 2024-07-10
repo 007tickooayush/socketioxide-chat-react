@@ -11,6 +11,8 @@ export const handleSocketEvent = (username, recName, currentTab) => {
         }
         if(currentTab.name == "Custom Chat") {
             console.log("Custom Chat",{username, recName, currentTab});
+            // handle custom chat socket event
+            socket.emit('join_room', { sender: username, room: recName, message: `User "${username}" has joined custom room` });
         }
     }
 }

@@ -8,9 +8,10 @@ const Root = ({ children }) => {
     const [username, setUsername] = useState(null);
     const [ownedUsername, setOwnedUsername] = useState(null);
     const [privateReceiver, setPrivateReceiver] = useState(null);
+    const [customRec, setCustomRec] = useState(null);
 
     return (
-        <AppContext.Provider value={{ username, setUsername, ownedUsername, setOwnedUsername, privateReceiver, setPrivateReceiver }}>
+        <AppContext.Provider value={{ username, setUsername, ownedUsername, setOwnedUsername, privateReceiver, setPrivateReceiver, customRec, setCustomRec }}>
             <ErrorBoundary FallbackComponent={ErrorFallback} onError={(err, InfoAbout) => { console.error("Error occured: >>", err); console.error("Error occured: >>", err) }}>
                 {children}
             </ErrorBoundary>
