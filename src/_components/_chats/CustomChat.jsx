@@ -4,12 +4,13 @@ import { Box, Container, Typography } from '@mui/material';
 import { useOutletContext } from 'react-router';
 import MessageSendHandle from '../_messages/MessageSendHandle';
 import MessageDisplayHandle from '../_messages/MessageDisplayHandle';
+import { socket } from '../../_utils/socket';
 
 const CustomChat = () => {
 
 
     const { msgListState } = useOutletContext();
-    const { setMsgList } = msgListState;
+    const { msgList, setMsgList } = msgListState;
 
     const { ownedUsername, customRec, setCustomRec } = useContext(AppContext);
 
@@ -20,16 +21,25 @@ const CustomChat = () => {
             setCustomRec(null);
         }
     }, []);
-
-    useEffect(() => {
-        // set the messages List for the private chat
-        if(localStorage.getItem(`custom:${customRec}`)) {
-            setMsgList(JSON.parse(localStorage.getItem(`custom:${customRec}`)).messages);
-        }
-
-    }, [customRec]);
     
 
+    useEffect(() => {
+        console.log('General Chat Component Mounted');
+        // socket.emit('join_room', { room: 'general', message: `Some user: "${username}" has joined`});
+        socket.on('messages', (data) => {
+            if (!JSON.parse(localStorage.getItem(`custom:${customRec}`))) {
+                localStorage.setItem(`custom:${customRec}`, JSON.stringify(data));
+            }
+            setMsgList(JSON.parse(localStorage.getItem(`custom:${customRec}`)).messages);
+
+            console.log('messages state', data);
+        });
+
+        return () => {
+            socket.off('join_room');
+            socket.off('messages');
+        }
+    }, [socket, customRec, msgList]);
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', overflowX: 'hidden', width: '100%' }}>
