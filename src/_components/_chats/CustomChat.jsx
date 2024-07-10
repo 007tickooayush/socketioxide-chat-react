@@ -16,7 +16,7 @@ const CustomChat = () => {
 
     useEffect(() => {
         setMsgList([]); // only set on initial render
-        // reset the state whenever the user tries to interact with the private chat again or for the first time
+        // reset the state whenever the user tries to interact with the custom chat again or for the first time
         return () => {
             setCustomRec(null);
         }
@@ -27,12 +27,9 @@ const CustomChat = () => {
         console.log('General Chat Component Mounted');
         // socket.emit('join_room', { room: 'general', message: `Some user: "${username}" has joined`});
         socket.on('messages', (data) => {
-            if (!JSON.parse(localStorage.getItem(`custom:${customRec}`))) {
-                localStorage.setItem(`custom:${customRec}`, JSON.stringify(data));
-            }
-            setMsgList(JSON.parse(localStorage.getItem(`custom:${customRec}`)).messages);
-
-            console.log('messages state', data);
+            localStorage.setItem(`custom:${customRec}`, JSON.stringify(data));
+            setMsgList(data.messages);
+            console.log('custom messages state', data);
         });
 
         return () => {
