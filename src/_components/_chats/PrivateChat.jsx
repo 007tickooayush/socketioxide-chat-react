@@ -18,12 +18,30 @@ const PrivateChat = () => {
         // reset the state whenever the user tries to interact with the private chat again or for the first time
         return () => {
             setPrivateReceiver(null);
+            // console.log('PrivateChat unmounted');
         }
     }, []);
 
     useEffect(() => {
+        return () => {
+            socket.emit("private_left", { in_private: false, username: ownedUsername });
+        }
+    }, [ownedUsername]);
+
+
+    useEffect(() => {
+        socket.on('joined_private', data => {
+            console.log('joined_private data :>> ', data);
+        });
+
+        return () => {
+            socket.off('joined_private'); 
+        }
+    }, [socket]);
+
+    useEffect(() => {
         // set the messages List for the private chat
-        if(localStorage.getItem(`privateMessages:${privateReceiver}`)) {
+        if (localStorage.getItem(`privateMessages:${privateReceiver}`)) {
             setMsgList(JSON.parse(localStorage.getItem(`privateMessages:${privateReceiver}`)).messages);
         }
 
@@ -32,7 +50,7 @@ const PrivateChat = () => {
     // useEffect(() => {
     //     // socket.on('resp', data => {
     //     //     console.log('resp data :>> ', data);
-        
+
     //     // });
 
     //     return () => {

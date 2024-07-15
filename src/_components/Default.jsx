@@ -86,8 +86,13 @@ const Default = () => {
             }
         });
 
+        // success indicator for socket event "private_left"
+        socket.on('left_private', data => {
+            console.log('left_private data :>> ', data);
+        });
         return () => {
             socket.off("user_handled");
+            socket.off('left_private');
         }
     }, [isConnected, username, ownedUsername]);
 

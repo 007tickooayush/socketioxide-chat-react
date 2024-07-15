@@ -2,12 +2,13 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react'
 import { checkUserExists } from '../../_utils/api';
 import { AppContext } from '../../_utils/context';
+import { socket } from '../../_utils/socket';
 
 const PrivateTabDialog = ({ handleAcceptance, handleRecChange, disabledAccept }) => {
 
     const [userExists, setUserExists] = useState(null);
 
-    const { privateReceiver, setPrivateReceiver } = useContext(AppContext);
+    const { privateReceiver, setPrivateReceiver, ownedUsername } = useContext(AppContext);
 
     const handleNameChange = (name) => {
         handleRecChange(name);
@@ -18,7 +19,10 @@ const PrivateTabDialog = ({ handleAcceptance, handleRecChange, disabledAccept })
         checkUserExists(privateReceiver).then((data) => {
             // console.log('data :>> ', data);
             if (data.exists) {
+
+                // enter the room after 2 seconds
                 setTimeout(() => {
+                    socket.emit('private_joined', { in_private: true, username: ownedUsername });
                     handleAcceptance();
                 }, 2000);
                 setUserExists(true);
