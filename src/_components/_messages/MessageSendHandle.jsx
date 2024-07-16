@@ -3,17 +3,23 @@ import React, { useContext, useEffect, useState } from 'react'
 import { socket } from '../../_utils/socket';
 import { useOutletContext } from 'react-router';
 import { AppContext } from '../../_utils/context';
+import { checkUserInPrivate } from '../../_utils/api';
+import SimpleDialog from '../_dialog/SimpleDialog';
 
 const MessageSendHandle = ({ room }) => {
 
     const [sentMsg, setSentMsg] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const { msgListState, username } = useOutletContext();
     const { msgList, setMsgList } = msgListState;
 
     const { ownedUsername, privateReceiver, customRec } = useContext(AppContext);
 
-    useEffect(() => {
+    const handleDialogClose = () => {
+        setIsOpen(false);
+    }
+    useEffect(() => {       
         socket.on('response', (data) => {
             let cachedMessagesObject;
 
@@ -100,6 +106,7 @@ const MessageSendHandle = ({ room }) => {
         })
 
         return () => {
+            setIsOpen(false);
             socket.off('response');
             socket.off('resp');
             socket.off('resp_back');
@@ -125,7 +132,19 @@ const MessageSendHandle = ({ room }) => {
 
             }
             else if (room == privateReceiver) {
-                socket.emit("private", { sender: ownedUsername, receiver: privateReceiver, message: sentMsg });
+                // trigger the check user api to check if the user is currently in the private window or not
+                // and if not, then do not emit the socket event and provide a warning dialog
+                checkUserInPrivate(privateReceiver).then((data) => {
+                    // console.log('checkUserInPrivate data :>> ', data);
+                    if(data?.in_private){
+                        socket.emit("private", { sender: ownedUsername, receiver: privateReceiver, message: sentMsg });
+                    } else {
+                        setIsOpen(true);
+                    }
+                }).catch((error) => {
+
+                    console.error('checkUserInPrivate error :>> ', error);
+                });
                 // setMsgList([...msgList, { sender: ownedUsername, receiver: privateReceiver, message: sentMsg }]);
             }
             else if (room == customRec) {
@@ -148,17 +167,20 @@ const MessageSendHandle = ({ room }) => {
     }
 
     return (
-        <FormControl sx={{ width: '100%' }}>
-            <Grid container sx={{ placeItems: 'start' }} padding={4}>
-                <Grid item xl={11} lg={11} md={11} sm={11} xs={11} paddingRight={2} height={'100%'} textOverflow={'ellipsis'} >
-                    <TextField id='sentMsg' type='text' label='Message' value={sentMsg} onChange={(e) => handleSendMessage(e.target.value)} fullWidth multiline /> {/* onKeyDown={(e) => handleKeyPress(e)} */}
+        <>
+            <SimpleDialog open={isOpen} title={'Warning'} message={'User is not in the private chat window'} handleDialogClose={handleDialogClose}/>
+            <FormControl sx={{ width: '100%' }}>
+                <Grid container sx={{ placeItems: 'start' }} padding={4}>
+                    <Grid item xl={11} lg={11} md={11} sm={11} xs={11} paddingRight={2} height={'100%'} textOverflow={'ellipsis'} >
+                        <TextField id='sentMsg' type='text' label='Message' value={sentMsg} onChange={(e) => handleSendMessage(e.target.value)} fullWidth multiline /> {/* onKeyDown={(e) => handleKeyPress(e)} */}
+                    </Grid>
+                    <Grid item xl={1} lg={1} md={1} sm={1} xs={1} height={'100%'}>
+                        <Button variant='outlined' fullWidth sx={{ height: '100%', padding: 2 }} onClick={(e) => handleSendSocket(e)}>Send</Button>
+                    </Grid>
                 </Grid>
-                <Grid item xl={1} lg={1} md={1} sm={1} xs={1} height={'100%'}>
-                    <Button variant='outlined' fullWidth sx={{ height: '100%', padding: 2 }} onClick={(e) => handleSendSocket(e)}>Send</Button>
-                </Grid>
-            </Grid>
 
-        </FormControl>
+            </FormControl>
+        </>
     )
 }
 

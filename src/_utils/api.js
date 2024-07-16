@@ -11,8 +11,8 @@ export const checkUserExists = async (username) => {
             },
             body: JSON.stringify({ username: username, generated_username: "" })
         });
-        
-        if(response.status === 302) {
+
+        if (response.status === 302) {
             const data = await response.json();
             // {"exists": true,"username": "hellsent","generated_username": "shaky-eye"}
             // console.log('api data :>> ', data);
@@ -68,5 +68,22 @@ export const checkServerHealthHttp = async () => {
         }
     } catch (error) {
         return { status: 400, error: error.message }
+    }
+}
+
+export const checkUserInPrivate = async (receiver) => {
+    try {
+        const response = await fetch(`${serverApiUrl}/in-private?username=${receiver}&generated_username=${"generated-username"}`, {
+            method: 'GET',
+            // body: JSON.stringify({ username: receiver, generated_username: "" })
+        });
+        const resp = await response.json();
+        if (response.status === 302) {
+            return resp;
+        } else {
+            return { exists: false, error: response.statusText };
+        }
+    } catch (error) {
+        return { status: 400, error: error.message };
     }
 }
