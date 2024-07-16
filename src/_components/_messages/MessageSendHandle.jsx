@@ -36,7 +36,7 @@ const MessageSendHandle = ({ room }) => {
                 cachedMessagesObject.messages.unshift(data);
 
                 // keep the truncated limit of messages to 20 inside a group
-                if (cachedMessagesObject.messages.length >= 20) {
+                if (cachedMessagesObject.messages.length >= 21) {
                     cachedMessagesObject.messages.pop();
                     msgList.pop();
                     setMsgList(msgList);
@@ -66,7 +66,7 @@ const MessageSendHandle = ({ room }) => {
                 cachedMessagesObject.messages.unshift(data);
 
                 // keep the truncated limit of messages to 20 inside a group
-                if (cachedMessagesObject.messages.length >= 20) {
+                if (cachedMessagesObject.messages.length >= 21) {
                     cachedMessagesObject.messages.pop();
                     msgList.pop();
                     setMsgList(msgList);
@@ -90,7 +90,7 @@ const MessageSendHandle = ({ room }) => {
                 cachedMessagesObject.messages.unshift(data);
 
                 // keep the truncated limit of messages to 20 inside a group
-                if (cachedMessagesObject.messages.length >= 20) {
+                if (cachedMessagesObject.messages.length >= 21) {
                     cachedMessagesObject.messages.pop();
                     msgList.pop();
                     setMsgList(msgList);
