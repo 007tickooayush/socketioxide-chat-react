@@ -20,7 +20,8 @@ const ConnectedState = ({ isConnectedState, isDisabled }) => {
         setUsername(null);
 
         if (socket.connected) {
-            socket.emit('remove', { generated_username: username, username: ownedUsername });
+            socket.emit("private_left", { in_private: false, username: ownedUsername });
+            socket.emit("remove", { generated_username: username, username: ownedUsername });
             socket.disconnect(); // Keep this line here as the disconnect event is not trigered by "remove" socket event
         } else {
             socket.connect();            
