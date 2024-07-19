@@ -9,6 +9,7 @@ import { AppContext } from '../_utils/context';
 import StartUserDialog from './_dialog/StartUserDialog';
 import SimpleDialog from './_dialog/SimpleDialog';
 import { checkServerHealthHttp } from '../_utils/api';
+import { askPermitAndShowNotification } from '../_utils/utilities';
 
 const Default = () => {
     const [count, setCount] = useState(0);
@@ -35,7 +36,11 @@ const Default = () => {
             }
             setIsInfoOpen(true);
         });
-
+        askPermitAndShowNotification("Welcome to the Chat App!").then(() => {
+            console.log("Notifications Activated!");
+        }).catch(err => {
+            console.log("Notifications Denied! ERR:>>",err);
+        });
 
         setOwnedUsername(localStorage.getItem('ownedUsername') ?? null);
         console.log('ownedUsername :>> ', localStorage.getItem('ownedUsername'));
