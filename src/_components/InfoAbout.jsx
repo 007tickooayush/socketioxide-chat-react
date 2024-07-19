@@ -56,7 +56,7 @@ const InfoAbout = () => {
                         </ListItem>
                         <ListItem>
                             <Typography variant='body1' align='left' fontWeight={'bold'}>
-                                - NOTE: The application does not display more than 20 messages inside a group if left by the user (or even if still in the room) to provide optimal performance and better user experience. Also the user has to follow the generated username id which is generated at the instant whenever the user connects/reconnects to the server. As anonymity being the concern, the user does not need to provide its details to generate the username, except an unique identification title, in order to interact with other users.
+                                - NOTE: The application does not display more than 20 messages inside a group if left by the user (or even if still in the room) to provide optimal performance and better user experience. Also the user has to follow the generated username id which is generated at the instant whenever the user connects/reconnects to the server, in order to interact in the "General Chat" group. As anonymity being the concern, the user does not need to provide its details to generate the username, except an unique identification title (the owned username), in order to interact with other users in the groups other than "General Chat", i.e, "Private Chat" and "Custom Chat".
                             </Typography>
                         </ListItem>
                     </List>
