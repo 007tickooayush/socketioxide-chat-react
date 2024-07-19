@@ -35,7 +35,6 @@ const Default = () => {
             }
             setIsInfoOpen(true);
         });
-        askAnd
 
 
         setOwnedUsername(localStorage.getItem('ownedUsername') ?? null);
