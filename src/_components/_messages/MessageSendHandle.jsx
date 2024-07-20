@@ -103,7 +103,7 @@ const MessageSendHandle = ({ room }) => {
                 // }
             }
             setMsgList([data, ...msgList]);
-        })
+        });
 
         return () => {
             setIsOpen(false);
@@ -112,12 +112,6 @@ const MessageSendHandle = ({ room }) => {
             socket.off('resp_back');
         }
     }, [socket, sentMsg, msgList, ownedUsername, privateReceiver, customRec]);
-
-    // useEffect(() => {
-    //     let messages = JSON.parse(localStorage.getItem('generalMessages'));
-    //     messages.push(data);
-    //     localStorage.setItem('generalMessages', JSON.stringify(messages));
-    // }, [msg])
 
     const handleSendMessage = (msg) => {
         setSentMsg(msg);

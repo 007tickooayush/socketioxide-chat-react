@@ -9,7 +9,7 @@ const MessageDisplayHandle = () => {
 
     const { username, msgListState } = useOutletContext();
     const { ownedUsername } = useContext(AppContext);
-    const { msgList, setMsgList } = msgListState;
+    const { msgList } = msgListState;
 
     return (
         <Box sx={{
@@ -19,8 +19,6 @@ const MessageDisplayHandle = () => {
             flexDirection: 'column',
         }}>
             {
-                // Rough implementation of the MessageSendHandle component
-
                 msgList &&
                 msgList.map((msg, idx) => {
                     return (

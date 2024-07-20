@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Box, Dialog, DialogTitle } from '@mui/material'
+import { Box } from '@mui/material'
 import { Outlet, useNavigate } from 'react-router'
 import Navbar from './_nav/Navbar'
 import { labels } from '../_docs/tabs.json';
@@ -44,7 +44,7 @@ const Default = () => {
 
         setOwnedUsername(localStorage.getItem('ownedUsername') ?? null);
         console.log('ownedUsername :>> ', localStorage.getItem('ownedUsername'));
-    }, [])
+    }, []);
 
     useEffect(() => {
         console.log('Default Component Mounted');
