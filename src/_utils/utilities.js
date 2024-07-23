@@ -37,16 +37,19 @@ export const formatDate = (dateStr) => {
     return `${fullDate.getFullYear()}-${fullDate.getMonth() + 1}-${fullDate.getDate()} ${fullDate.getHours()}:${fullDate.getMinutes()}:${fullDate.getSeconds()}`
 };
 
-export const askPermitAndShowNotification = async (message) => {
-    if (!("Notification" in window)) {
-        alert("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted") {
-        new Notification(message);
-    } else if (Notification.permission !== "denied") {
-        let permission = await Notification.requestPermission();
-        if (permission === "granted") {
-            new Notification(message);
+export const askPermitAndShowNotification = (body, title = 'Notification') => {
+    if ("Notification" in window) {
+        if (Notification.permission === "granted") {
+            new Notification(title, { body });
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    new Notification(title, { body });
+                }
+            });
         }
+    } else {
+        alert("This browser does not support notifications.");
     }
 }
 

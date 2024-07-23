@@ -19,7 +19,7 @@ const MessageSendHandle = ({ room }) => {
     const handleDialogClose = () => {
         setIsOpen(false);
     }
-    useEffect(() => {       
+    useEffect(() => {
         socket.on('response', (data) => {
             let cachedMessagesObject;
 
@@ -41,7 +41,7 @@ const MessageSendHandle = ({ room }) => {
                     msgList.pop();
                     setMsgList(msgList);
                 }
-                
+
             }
             if (data.room == "general") {
                 localStorage.setItem('generalMessages', JSON.stringify(cachedMessagesObject));
@@ -130,10 +130,12 @@ const MessageSendHandle = ({ room }) => {
                 // and if not, then do not emit the socket event and provide a warning dialog
                 checkUserInPrivate(privateReceiver).then((data) => {
                     // console.log('checkUserInPrivate data :>> ', data);
-                    if(data?.in_private){
+                    if (data?.in_private) {
                         socket.emit("private", { sender: ownedUsername, receiver: privateReceiver, message: sentMsg });
                     } else {
                         setIsOpen(true);
+                        // send notification event
+                        socket.emit("notify", { sender: ownedUsername, receiver: privateReceiver, message: `User: ${ownedUsername} want to send you a message!` });
                     }
                 }).catch((error) => {
 
@@ -149,27 +151,16 @@ const MessageSendHandle = ({ room }) => {
         }
     }
 
-    /**
-     * 
-     * @param {React.KeyboardEvent} e keyboard event object
-     */
-    const handleKeyPress = (e) => {
-        // console.log('e.key :>> ', e.key);
-        if (e.key === 'Enter' && sentMsg.trim() !== '') {
-            handleSendSocket();
-        }
-    }
-
     return (
         <>
-            <SimpleDialog open={isOpen} title={'Warning'} message={'User is not in the private chat window'} handleDialogClose={handleDialogClose}/>
+            <SimpleDialog open={isOpen} title={'Warning'} message={'User is not in the private chat window! Sending Notification to user'} handleDialogClose={handleDialogClose} />
             <FormControl sx={{ width: '100%' }}>
                 <Grid container sx={{ placeItems: 'start' }} padding={4}>
                     <Grid item xl={11} lg={11} md={11} sm={11} xs={11} paddingRight={2} height={'100%'} textOverflow={'ellipsis'} >
                         <TextField id='sentMsg' type='text' label='Message' value={sentMsg} onChange={(e) => handleSendMessage(e.target.value)} fullWidth multiline /> {/* onKeyDown={(e) => handleKeyPress(e)} */}
                     </Grid>
                     <Grid item xl={1} lg={1} md={1} sm={1} xs={1} height={'100%'}>
-                        <Button variant='outlined' fullWidth sx={{ height: '100%', padding: 2 }} onClick={(e) => handleSendSocket(e)}>Send</Button>
+                        <Button variant='outlined' fullWidth sx={{ height: '100%', padding: 2 }} onClick={handleSendSocket}>Send</Button>
                     </Grid>
                 </Grid>
 

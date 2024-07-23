@@ -36,11 +36,7 @@ const Default = () => {
             }
             setIsInfoOpen(true);
         });
-        askPermitAndShowNotification("Welcome to the Chat App!").then(() => {
-            console.log("Notifications Activated!");
-        }).catch(err => {
-            console.log("Notifications Denied! ERR:>>",err);
-        });
+        askPermitAndShowNotification("Welcome to the Chat App!")
 
         setOwnedUsername(localStorage.getItem('ownedUsername') ?? null);
         console.log('ownedUsername :>> ', localStorage.getItem('ownedUsername'));
@@ -67,9 +63,34 @@ const Default = () => {
             setUsername(data);
         });
 
+        socket.on("notified", message => {
+            if(message) {
+                console.log('notification recv :>> ');
+                alert(message);
+                askPermitAndShowNotification(message);
+            } else {
+                console.log('Notification data :>> ', message); // Fixed variable reference from 'data' to 'message'
+            }
+        });
+
+        // socket.on("notified", message => {
+        //     if(message) {
+        //         console.log('notfication recv :>> ');
+        //         askPermitAndShowNotification(message)
+        //         .then(() => {
+        //             console.log('Notification Shown!');
+        //         }).catch(err => {
+        //             console.log('Notification Error! ERR:>>', err);
+        //         });
+        //     } else {
+        //         console.log('Notification data :>> ', data);
+        //     }
+        // });
+
         return () => {
             socket.off('connect');
             socket.off('username');
+            socket.off('notified');
 
             if (socket.connected) {
                 socket.disconnect();
