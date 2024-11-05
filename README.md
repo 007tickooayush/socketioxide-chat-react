@@ -1,3 +1,5 @@
+## Frontend for Project [socketioxide-rust-chat](https://github.com/007tickooayush/socketioxide-rust-chat)
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
